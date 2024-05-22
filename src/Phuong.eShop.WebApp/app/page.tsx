@@ -1,45 +1,31 @@
 import CatalogItemList from "@/components/catalog/catalog-item-list";
+import CatalogSearch from "@/components/catalog/catalog-search";
+import CatalogApi from "@/lib/api/catalog-api";
 
-export default function Home() {
-  const catalogItems = [
-    {
-      id: 1,
-      name: "Wanderer Black Hiking Boots",
-      pictureUri: "/Pics/1.webp",
-      price: 129.99,
-    },
-    {
-      id: 2,
-      name: "Summit Pro Harness",
-      pictureUri: "/Pics/2.webp",
-      price: 192.99,
-    },
-    {
-      id: 3,
-      name: "Wanderer Black Hiking Boots",
-      pictureUri: "/Pics/3.webp",
-      price: 129.99,
-    },
-    {
-      id: 4,
-      name: "Alpine Fusion Goggles",
-      pictureUri: "/Pics/4.webp",
-      price: 129.99,
-    },
-    {
-      id: 5,
-      name: "Wanderer Black Hiking Boots",
-      pictureUri: "/Pics/5.webp",
-      price: 129.99,
-    },
-  ];
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const [catalogItemList, catalogBrands, catalogTypes] = await Promise.all([
+    CatalogApi.getCatalogItems(searchParams.page ? +searchParams.page : 1),
+    CatalogApi.getCatalogBrands(),
+    CatalogApi.getCatalogTypes(),
+  ]);
 
   return (
     <main className="flex flex-row items-center justify-between w-full max-w-screen-2xl m-auto font-mono py-4">
-      <aside className="w-[350px] h-96">
-        <h1 className="w-[350px] h-[400px]">Aside</h1>
+      <aside className="w-[350px] self-start px-4">
+        <CatalogSearch
+          catalogBrands={catalogBrands}
+          catalogTypes={catalogTypes}
+        />
       </aside>
-      <CatalogItemList catalogItems={catalogItems}></CatalogItemList>
+      <CatalogItemList
+        catalogItems={catalogItemList.items}
+        currentPage={catalogItemList.pageNumber}
+        totalPage={catalogItemList.totalPages}
+      ></CatalogItemList>
     </main>
   );
 }

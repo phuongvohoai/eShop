@@ -1,6 +1,5 @@
 import { CatalogItemModel } from "@/models/catalog-item";
 import { Card, CardContent, CardFooter } from "../ui/card";
-import Image from "next/image";
 
 export interface CatalogItemProps extends CatalogItemModel { };
 
@@ -8,7 +7,7 @@ const CatalogItem = (props: CatalogItemProps) => {
   return (
     <Card className="cursor-pointer hover:outline-2 hover:outline-current hover:outline">
       <CardContent className="p-0">
-        <Image src={props.pictureUri} alt={props.name} width={600} height={600} className="rounded-t-lg" />
+        <img src={props.pictureUri} alt={props.name} width={600} height={600} className="rounded-t-lg" />
       </CardContent>
       <CardFooter className="flex justify-between text-base pt-4">
         <span className="font-bold">{props.name}</span>
