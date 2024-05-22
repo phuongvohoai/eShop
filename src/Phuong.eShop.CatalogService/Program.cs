@@ -10,6 +10,7 @@ builder.AddApiServicesWithMediatR(Assembly.GetExecutingAssembly());
 builder.AddNpgsqlDbContext<CatalogDbContext>("catalogDb");
 builder.Services.AddMigration<CatalogDbContext, CatalogSeed>();
 builder.Services.AddScoped<ICatalogDbContext>(sp => sp.GetRequiredService<CatalogDbContext>());
+builder.Services.AddMappings(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 

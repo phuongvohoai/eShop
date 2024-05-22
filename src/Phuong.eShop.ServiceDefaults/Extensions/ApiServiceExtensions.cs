@@ -1,4 +1,6 @@
 using System.Reflection;
+using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +13,12 @@ public static class ApiServiceExtensions
     {
         builder.AddApiServices();
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(mediatrAssembly));
+    }
+    
+    public static void AddMappings(this IServiceCollection services, Assembly mappingAssembly)
+    {
+        var config = TypeAdapterConfig.GlobalSettings;
+        config.Scan(mappingAssembly);
     }
     
     public static void AddApiServices(this IHostApplicationBuilder builder)

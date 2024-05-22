@@ -10,11 +10,15 @@ const catalogApiUrl = process.env.CATALOG_API_URL;
 const CatalogApi = {
   async getCatalogItems(
     pageNumber: number,
-    pageSize: number = 12
+    pageSize: number,
+    brandId?: number,
+    typeId?: number,
+    search?: string
   ): Promise<PaginatedList<CatalogItemModel>> {
     const response = await fetch(
-      `${catalogApiUrl}/api/catalog/items?pageNumber=${pageNumber}&pageSize=${pageSize}`
+      `${catalogApiUrl}/api/catalog/items?pageNumber=${pageNumber}&pageSize=${pageSize}&brand=${brandId}&type=${typeId}&search=${search}`
     );
+    console.log(response.url);
     const paginatedList: PaginatedList<CatalogItemModel> =
       await response.json();
     return {

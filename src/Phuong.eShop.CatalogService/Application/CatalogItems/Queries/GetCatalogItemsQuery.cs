@@ -6,11 +6,6 @@ public class GetCatalogItemsQueryHandler(ICatalogDbContext context) : IRequestHa
 {
     public async Task<List<CatalogItemDto>> Handle(GetCatalogItemsQuery request, CancellationToken cancellationToken)
     {
-        TypeAdapterConfig<CatalogItem, CatalogItemDto>
-            .NewConfig()
-            .Map(dest => dest.CatalogBrand, src => src.CatalogBrand.Name)
-            .Map(dest => dest.CatalogType, src => src.CatalogType.Name);
-        
         return await context.CatalogItems
             .Include(s => s.CatalogBrand)
             .Include(s => s.CatalogType)

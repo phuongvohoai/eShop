@@ -7,14 +7,20 @@ namespace Phuong.eShop.CatalogService.Controllers;
 public class CatalogItemsController(IWebHostEnvironment env) : BaseApiController
 {
     [HttpGet]
-    public Task<PaginatedList<CatalogItemDto>> Get([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+    public Task<PaginatedList<CatalogItemDto>> Get(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] int brand = 0,
+        [FromQuery] int type = 0,
+        [FromQuery] string searchString = "")
     {
         return Mediator.Send(new GetCatalogItemWithPaginationQuery
         {
-            PageNumber = pageNumber, PageSize = pageSize
+            PageNumber = pageNumber, PageSize = pageSize,
+            Brand = brand, Type = type, SearchString = searchString
         });
     }
-    
+
     [HttpGet("{id:int}/pic")]
     public async Task<IActionResult> GetItemPicture(int id)
     {
@@ -23,6 +29,7 @@ public class CatalogItemsController(IWebHostEnvironment env) : BaseApiController
         {
             return NotFound();
         }
+
         var path = Path.Combine(env.ContentRootPath, "Pics", catalogItem.PictureUri);
         return PhysicalFile(path, "image/webp");
     }
