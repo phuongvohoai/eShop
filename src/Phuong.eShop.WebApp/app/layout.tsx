@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(inter.className, "flex flex-col min-h-screen")}>
         <PageHeader />
-        <main className="flex flex-1 max-w-screen-2xl mx-auto">
+        <main className="flex flex-1 max-w-screen-2xl mx-auto py-4">
           {children}
         </main>
         <PageFooter />

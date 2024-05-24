@@ -1,4 +1,4 @@
-import { CircleUser, Search } from "lucide-react";
+import { CircleUser, Search, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Input } from "@/components/ui/input"
@@ -21,7 +21,7 @@ const PageHeader = () => {
             <Image src="/logo-header.svg" alt="Northern Mountains" width={80} height={80} quality={100} className="mr-auto" />
           </Link>
         </div>
-        <div className="flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+        <div className="flex items-center gap-5 md:ml-auto md:gap-2 lg:gap-5">
           <form className="ml-auto flex-1 sm:flex-initial">
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -32,6 +32,12 @@ const PageHeader = () => {
               />
             </div>
           </form>
+          <Button variant="secondary" size="icon" className="rounded-full" asChild >
+            <Link href="/cart">
+              <ShoppingBag className="h-5 w-5" />
+              <span className="sr-only">Go to cart</span>
+              </Link>
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">

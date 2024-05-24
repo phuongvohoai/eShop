@@ -21,7 +21,7 @@ export default async function Home({
 
   return (
     <div>
-      <div className="flex flex-col justify-center relative pt-2">
+      <div className="flex flex-col justify-center relative">
         <Image src="/header-home.webp" alt="Northern Mountains" width={1920} height={600} quality={100} className="w-full object-cover object-center" />
         <div className="absolute bottom-10 left-10">
           <h1 className="text-5xl font-bold text-black pb-2">

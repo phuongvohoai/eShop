@@ -1,5 +1,6 @@
 import {
   CatalogBrandModel,
+  CatalogItemDetailModel,
   CatalogItemModel,
   CatalogTypeModel,
 } from "@/models/catalog-item";
@@ -37,6 +38,14 @@ const CatalogApi = {
     const response = await fetch(`${catalogApiUrl}/api/catalog/types`);
     return await response.json();
   },
+  async getCatalogItem(id: number): Promise<CatalogItemDetailModel> {
+    const response = await fetch(`${catalogApiUrl}/api/catalog/items/${id}`);
+    const catalogItem: CatalogItemDetailModel = await response.json();
+    return {
+      ...catalogItem,
+      pictureUri: `${catalogApiUrl}/api/catalog/items/${id}/pic`,
+    };
+  }
 };
 
 export default CatalogApi;

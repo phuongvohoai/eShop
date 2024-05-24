@@ -14,3 +14,10 @@ export interface CatalogItemModel {
   pictureUri: string;
   price: number;
 }
+
+export interface CatalogItemDetailModel extends CatalogItemModel {
+  catalogBrand: string;
+  catalogType: string;
+  description?: string;
+  availableStock: number;
+}

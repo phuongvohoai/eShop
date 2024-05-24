@@ -21,6 +21,17 @@ public class CatalogItemsController(IWebHostEnvironment env) : BaseApiController
         });
     }
 
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<CatalogItemDto>> GetById(int id) {
+        var catalogItem = await Mediator.Send(new GetCatalogItemByIdQuery(id));
+        if (catalogItem is null)
+        {
+            return NotFound();
+        }
+
+        return catalogItem;
+    }
+
     [HttpGet("{id:int}/pic")]
     public async Task<IActionResult> GetItemPicture(int id)
     {
