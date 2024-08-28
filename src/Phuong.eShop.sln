@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phuong.eShop.IdentityServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phuong.eShop.CatalogService", "Phuong.eShop.CatalogService\Phuong.eShop.CatalogService.csproj", "{C8E788CC-DA27-4052-B482-CA3A6178D09E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phuong.eShop.BlazorApp", "Phuong.eShop.BlazorApp\Phuong.eShop.BlazorApp.csproj", "{EC2B9094-262A-4AF6-AABF-6A1BB37BF756}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{C8E788CC-DA27-4052-B482-CA3A6178D09E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8E788CC-DA27-4052-B482-CA3A6178D09E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8E788CC-DA27-4052-B482-CA3A6178D09E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC2B9094-262A-4AF6-AABF-6A1BB37BF756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC2B9094-262A-4AF6-AABF-6A1BB37BF756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC2B9094-262A-4AF6-AABF-6A1BB37BF756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC2B9094-262A-4AF6-AABF-6A1BB37BF756}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

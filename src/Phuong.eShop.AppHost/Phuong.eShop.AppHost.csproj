@@ -10,12 +10,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.AppHost" Version="8.0.1" />
-        <PackageReference Include="Aspire.Hosting.NodeJs" Version="8.0.1" />
-        <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="8.0.1" />
+        <PackageReference Include="Aspire.Hosting.AppHost" Version="8.1.0" />
+        <PackageReference Include="Aspire.Hosting.NodeJs" Version="8.1.0" />
+        <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="8.1.0" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Phuong.eShop.BlazorApp\Phuong.eShop.BlazorApp.csproj" />
       <ProjectReference Include="..\Phuong.eShop.CatalogService\Phuong.eShop.CatalogService.csproj" />
       <ProjectReference Include="..\Phuong.eShop.IdentityService\Phuong.eShop.IdentityService.csproj" />
     </ItemGroup>
