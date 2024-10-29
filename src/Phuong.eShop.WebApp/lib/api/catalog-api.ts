@@ -17,7 +17,7 @@ const CatalogApi = {
     search?: string
   ): Promise<PaginatedList<CatalogItemModel>> {
     const response = await fetch(
-      `${catalogApiUrl}/api/catalog/items?pageNumber=${pageNumber}&pageSize=${pageSize}&brand=${brandId}&type=${typeId}&search=${search}`
+      `${catalogApiUrl}/api/catalog/items?pageNumber=${pageNumber}&pageSize=${pageSize}&brand=${brandId}&type=${typeId}&searchString=${search}`
     );
     console.log(response.url);
     const paginatedList: PaginatedList<CatalogItemModel> =
