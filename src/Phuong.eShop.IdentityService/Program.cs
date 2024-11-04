@@ -6,6 +6,7 @@ using Phuong.eShop.ServiceDefaults.Migration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Denpendency Inject (SOLID) Container
 builder.AddApiServices();
 
 builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
@@ -18,10 +19,14 @@ builder.Services.AddIdentityCore<ApplicationUser>().AddEntityFrameworkStores<App
 
 builder.Services.AddMigration<AppDbContext, AppDbContextSeed>();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 app.ConfigureApiServiceMiddleware();
 
 app.MapIdentityApi<ApplicationUser>();
+
+app.UseCors(opt => opt.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 await app.RunAsync();

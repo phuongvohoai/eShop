@@ -1,5 +1,6 @@
 import CatalogItemList from "@/components/catalog/catalog-item-list";
 import CatalogSearch from "@/components/catalog/catalog-search";
+import { getCurrentUser } from "@/components/login/login-api";
 import CatalogApi from "@/lib/api/catalog-api";
 import Image from "next/image";
 
@@ -18,6 +19,8 @@ export default async function Home({
     CatalogApi.getCatalogBrands(),
     CatalogApi.getCatalogTypes(),
   ]);
+
+  const userSession = await getCurrentUser();
 
   return (
     <div>
