@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { useRouter } from 'next/navigation'
+import { login } from "../login/login-api"
 
 enum RegisterError {
     FirstNameError = "First name is required",
@@ -124,8 +125,8 @@ const Register = () => {
             body: JSON.stringify({ email, password }),
         })
         if (response.ok) {
-            const loginRespone = await login(email, password)
-            if(loginRespone){
+            const loginResponse = await login(email!, password!)
+            if(loginResponse){
             router.push("/");
             }
         }

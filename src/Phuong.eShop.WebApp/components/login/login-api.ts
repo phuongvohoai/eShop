@@ -1,11 +1,12 @@
 'use server'
+import { useAuth } from '@/app/context/user-context-provider'
 import { cookies } from 'next/headers'
 
 type AccessTokenResponse = {
     accessToken: string
 }
 
-type UserSession = {
+export type UserSession = {
     email: string,
     accessToken: string
 }
@@ -14,7 +15,6 @@ const userSessionCookieName = "userSession";
 
 export async function login(email: string, password: string) {
     const cookieStore = await cookies();
-
     const response = await fetch('http://localhost:5274/login', {
         method: 'POST',
         headers: {
@@ -32,7 +32,7 @@ export async function login(email: string, password: string) {
     }
     console.log(user);
     cookieStore.set(userSessionCookieName, JSON.stringify(user));
-    return true
+    return user;
     }
     return false;
 }
