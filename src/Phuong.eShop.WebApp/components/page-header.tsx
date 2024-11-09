@@ -1,3 +1,4 @@
+"use client"
 import { CircleUser, Search, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,8 +13,29 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import SearchProduct from "./searchProduct";
+import { getCurrentUser, UserSession } from "./login/login-api";
+import { useContext, useEffect, useState } from "react";
+import { deleteCurrentUser } from "@/lib/api/logout-api";
+import { useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
+import { useAuth } from "@/app/context/user-context-provider";
 
 const PageHeader = () => {
+  const router = useRouter();
+  const [auth, setAuth] = useAuth();
+
+  const handleLogout = async () => {
+    if (auth) {
+      setAuth({
+        ...auth,
+        email: "",
+        accessToken: ""
+      })
+      const deleteCookie = await deleteCurrentUser();
+      router.push("/login")
+    }
+  }
+
   return (
     <header className="sticky top-0 shadow h-20 z-10 bg-white">
       <nav className="max-w-screen-2xl mx-auto h-full flex items-center">
@@ -33,7 +55,7 @@ const PageHeader = () => {
             <Link href="/cart">
               <ShoppingBag className="h-5 w-5" />
               <span className="sr-only">Go to cart</span>
-              </Link>
+            </Link>
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -43,12 +65,20 @@ const PageHeader = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>{auth.accessToken ? auth.email : "My Account"}</DropdownMenuLabel>
+              {auth.accessToken && <>
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Order</DropdownMenuItem>
+              </>
+              }
               <DropdownMenuSeparator />
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              {auth.accessToken ? (<DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem onClick={() => router.push('/login')}>Login</DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

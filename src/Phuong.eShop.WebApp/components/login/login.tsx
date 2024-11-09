@@ -14,6 +14,7 @@ import { use, useEffect, useState } from "react"
 import { useRouter } from 'next/navigation'
 import { login } from "./login-api"
 import { error } from "console"
+import { useAuth } from "@/app/context/user-context-provider"
 
 type LoginFormModel = {
     email?: string,
@@ -25,6 +26,7 @@ type LoginFormModel = {
 
 const Login = () => {
     const router = useRouter();
+    const [auth, setAuth] = useAuth();
     const [loginForm, setLoginForm] = useState<LoginFormModel>({});
     const validatePassword = (): boolean => {
         let passwordError = "";
@@ -67,6 +69,11 @@ const Login = () => {
 
         const loginSuccess = await login(loginForm.email!, loginForm.password!);
         if (loginSuccess) {
+            setAuth({
+                ...auth,
+                email: loginSuccess.email,
+                accessToken: loginSuccess.accessToken
+            })
             router.push('/');
         }
         else {
@@ -114,6 +121,7 @@ const Login = () => {
                                 onBlur={validateEmail}
                                 className={getInputClassName(loginForm.emailError)}
                                 onKeyDown={handleKeyDown}
+                                tabIndex={1}
                             />
                             {errorMessage(loginForm.emailError)}
                         </div>
@@ -133,6 +141,7 @@ const Login = () => {
                                 onBlur={validatePassword}
                                 className={getInputClassName(loginForm.passwordError)}
                                 onKeyDown={handleKeyDown}
+                                tabIndex={2}
                             />
                             {errorMessage(loginForm.passwordError)}
                         </div>
