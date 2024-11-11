@@ -1,11 +1,12 @@
-import { CatalogItemModel } from "@/models/catalog-item";
+import { CatalogItemDetailModel, CatalogItemModel } from "@/models/catalog-item";
 import CatalogItem from "./catalog-item";
 import { SmartPagination } from "../smart-pagination";
+import { CatalogItemStoreDetailModel } from "../cart/cart-store";
 
 type CatalogItemListProps = {
   currentPage: number;
   totalPage: number;
-  catalogItems: CatalogItemModel[];
+  catalogItems: CatalogItemStoreDetailModel[];
 };
 
 const CatalogItemList = (props: CatalogItemListProps) => {

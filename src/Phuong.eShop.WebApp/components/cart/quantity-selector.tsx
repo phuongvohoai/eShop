@@ -3,12 +3,17 @@ import { cn } from "@/lib/utils";
 import { Minus, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { useSnapshot } from "valtio";
+import { actions, store } from "./cart-store";
 
 export default function QuantitySelector(props: {
   quantity: number;
   onChange: (quantity: number) => void;
   maxQuantity?: number;
+  id: number
 }) {
+
+  const itemList = useSnapshot(store)
   const { maxQuantity } = props;
   const [currentQuantity, setCurrentQuantity] = useState<number>(props.quantity);
 
@@ -16,13 +21,18 @@ export default function QuantitySelector(props: {
     if (maxQuantity && currentQuantity == maxQuantity) return;
     const newQuantity = currentQuantity + 1;
     setCurrentQuantity(newQuantity);
+    actions.incrementQuantity(props.id)
     props.onChange(newQuantity);
   };
   const decrement = () => {
-    if (currentQuantity == 0) return;
     const newQuantity = currentQuantity - 1;
     setCurrentQuantity(newQuantity);
     props.onChange(newQuantity);
+    if (newQuantity == 0){
+      actions.removeTodo(props.id)
+    } 
+    console.log(itemList)
+
   }
 
   return (

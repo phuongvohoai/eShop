@@ -1,3 +1,4 @@
+import { CatalogItemStoreDetailModel } from "@/components/cart/cart-store";
 import {
   CatalogBrandModel,
   CatalogItemDetailModel,
@@ -15,16 +16,16 @@ const CatalogApi = {
     brandId?: number,
     typeId?: number,
     search?: string
-  ): Promise<PaginatedList<CatalogItemModel>> {
+  ): Promise<PaginatedList<CatalogItemStoreDetailModel>> {
     const response = await fetch(
       `${catalogApiUrl}/api/catalog/items?pageNumber=${pageNumber}&pageSize=${pageSize}&brand=${brandId}&type=${typeId}&searchString=${search}`
     );
     console.log(response.url);
-    const paginatedList: PaginatedList<CatalogItemModel> =
+    const paginatedList: PaginatedList<CatalogItemStoreDetailModel> =
       await response.json();
     return {
       ...paginatedList,
-      items: paginatedList.items.map((item: CatalogItemModel) => ({
+      items: paginatedList.items.map((item: CatalogItemStoreDetailModel) => ({
         ...item,
         pictureUri: `${catalogApiUrl}/api/catalog/items/${item.id}/pic`,
       })),
