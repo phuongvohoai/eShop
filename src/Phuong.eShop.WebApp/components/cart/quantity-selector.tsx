@@ -3,38 +3,29 @@ import { cn } from "@/lib/utils";
 import { Minus, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { useSnapshot } from "valtio";
-import { actions, store } from "./cart-store";
+import { decrementItemQuantity, incrementItemQuantity, removeItemFromCart } from "./cart-store";
 
 export default function QuantitySelector(props: {
   quantity: number;
-  onChange: (quantity: number) => void;
   maxQuantity?: number;
   id: number
 }) {
-
-  const itemList = useSnapshot(store)
   const { maxQuantity } = props;
   const [currentQuantity, setCurrentQuantity] = useState<number>(props.quantity);
-
   const increment = () => {
     if (maxQuantity && currentQuantity == maxQuantity) return;
     const newQuantity = currentQuantity + 1;
     setCurrentQuantity(newQuantity);
-    actions.incrementQuantity(props.id)
-    props.onChange(newQuantity);
+    incrementItemQuantity(props.id)
   };
   const decrement = () => {
     const newQuantity = currentQuantity - 1;
     setCurrentQuantity(newQuantity);
-    props.onChange(newQuantity);
-    if (newQuantity == 0){
-      actions.removeTodo(props.id)
-    } 
-    console.log(itemList)
-
+    decrementItemQuantity(props.id)
+    if (newQuantity == 0) {
+      removeItemFromCart(props.id)
+    }
   }
-
   return (
     <div className="border p-1 gap-1 flex justify-around items-center w-32">
       <Minus size={16} onClick={decrement} className={

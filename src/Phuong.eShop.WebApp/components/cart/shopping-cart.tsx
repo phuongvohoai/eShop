@@ -3,7 +3,6 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -12,15 +11,12 @@ import {
 import { ShoppingBag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import CartItem from "./cart-item"
-import { useSnapshot } from "valtio"
-import { store } from "./cart-store"
-import { Badge } from "../ui/badge"
+import { useCartStore } from "./cart-store"
 import { useRouter } from "next/navigation"
 
 
 export default function ShoppingCart() {
-  const { itemList } = useSnapshot(store)
-  const itemCount = itemList.length
+  const { itemList } = useCartStore();
   const totalPrice = itemList.reduce((total, item) => total + item.price * item.quantity, 0)
   const discount = 10;
   const router = useRouter()
@@ -30,9 +26,9 @@ export default function ShoppingCart() {
         <Button variant="secondary" size="icon" className="rounded-full relative">
           <ShoppingBag className="h-5 w-5" />
           <span className="sr-only">Go to cart</span>
-          {itemCount > 0 && (
+          {itemList.length > 0 && (
             <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
-              {itemCount}
+              {itemList.length}
             </span>
           )}
         </Button>
@@ -55,7 +51,7 @@ export default function ShoppingCart() {
             <span>Discount</span>
             <span>-${discount}</span>
           </div>
-          <div className="border-t my-2"></div> {/* Dòng ngăn cách nhỏ */}
+          <div className="border-t my-2"></div> {/* dong ngan cach*/}
           <div className="flex justify-between font-semibold">
             <span>Total</span>
             <span>${(totalPrice - discount).toFixed(2)}</span>
