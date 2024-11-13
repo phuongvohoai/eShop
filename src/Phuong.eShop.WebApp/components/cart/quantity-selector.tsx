@@ -3,28 +3,29 @@ import { cn } from "@/lib/utils";
 import { Minus, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { decrementItemQuantity, incrementItemQuantity, removeItemFromCart } from "./cart-store";
 
 export default function QuantitySelector(props: {
   quantity: number;
-  onChange: (quantity: number) => void;
   maxQuantity?: number;
+  id: number
 }) {
   const { maxQuantity } = props;
   const [currentQuantity, setCurrentQuantity] = useState<number>(props.quantity);
-
   const increment = () => {
     if (maxQuantity && currentQuantity == maxQuantity) return;
     const newQuantity = currentQuantity + 1;
     setCurrentQuantity(newQuantity);
-    props.onChange(newQuantity);
+    incrementItemQuantity(props.id)
   };
   const decrement = () => {
-    if (currentQuantity == 0) return;
     const newQuantity = currentQuantity - 1;
     setCurrentQuantity(newQuantity);
-    props.onChange(newQuantity);
+    decrementItemQuantity(props.id)
+    if (newQuantity == 0) {
+      removeItemFromCart(props.id)
+    }
   }
-
   return (
     <div className="border p-1 gap-1 flex justify-around items-center w-32">
       <Minus size={16} onClick={decrement} className={

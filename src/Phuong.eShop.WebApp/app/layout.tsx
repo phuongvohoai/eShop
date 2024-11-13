@@ -5,7 +5,7 @@ import PageHeader from "@/components/page-header";
 import PageFooter from "@/components/page-footer";
 import { cn } from "@/lib/utils";
 import UserProvider from "./context/user-context-provider";
-
+import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -25,6 +25,7 @@ export default function RootLayout({
           <main className="flex flex-1 max-w-screen-2xl mx-auto py-4">
             {children}
           </main>
+          <Toaster/>
           <PageFooter />
         </UserProvider>
       </body>

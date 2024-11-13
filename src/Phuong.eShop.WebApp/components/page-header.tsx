@@ -19,6 +19,7 @@ import { deleteCurrentUser } from "@/lib/api/logout-api";
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useAuth } from "@/app/context/user-context-provider";
+import ShoppingCart from "./cart/shopping-cart";
 
 const PageHeader = () => {
   const router = useRouter();
@@ -51,12 +52,7 @@ const PageHeader = () => {
               <SearchProduct></SearchProduct>
             </div>
           </form>
-          <Button variant="secondary" size="icon" className="rounded-full" asChild >
-            <Link href="/cart">
-              <ShoppingBag className="h-5 w-5" />
-              <span className="sr-only">Go to cart</span>
-            </Link>
-          </Button>
+          <ShoppingCart></ShoppingCart>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
