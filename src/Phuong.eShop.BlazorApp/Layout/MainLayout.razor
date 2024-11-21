@@ -4,19 +4,21 @@
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
-<MudLayout>
-    <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="ml-3">eShop Admin Dashboard</MudText>
-        <MudSpacer />
-        <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle" />
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+<MudLayout Class="d-flex" Style="height: 100vh;">
+    <MudAppBar Elevation="0">
+        <MudImage Src="eShop-logo.webp" Class="rounded-lg" Width="58" Height="58" ObjectFit="ObjectFit.Cover"></MudImage>
+        <MudText Typo="Typo.h5" Class="ml-3"><strong>eShop Admin Dashboard</strong></MudText>
+        <MudSpacer/>
+        <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle"/>
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End"/>
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+    <MudDrawer Open="true" Width="100px" ClipMode="DrawerClipMode.Always" Fixed="true" Elevation="0">
         <NavMenu />
     </MudDrawer>
-    <MudMainContent Class="mt-16 pa-4">
-        @Body
+    <MudMainContent>
+        <MudPaper Class="pa-4" Elevation="2" Height="100%" Width="100%">
+            @Body
+        </MudPaper>
     </MudMainContent>
 </MudLayout>
 
@@ -28,26 +30,19 @@
 </div>
 
 @code {
-    private bool _drawerOpen = true;
-    private bool _isDarkMode = true;
+    private bool _isDarkMode = false;
     private MudTheme? _theme = null;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        _theme = new()
+        _theme = new MudTheme
         {
             PaletteLight = _lightPalette,
             PaletteDark = _darkPalette,
             LayoutProperties = new LayoutProperties()
         };
-    }
-
-
-    private void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
     }
 
     private void DarkModeToggle()
@@ -59,8 +54,8 @@
     {
         Black = "#110e2d",
         AppbarText = "#424242",
-        AppbarBackground = "rgba(255,255,255,0.8)",
-        DrawerBackground = "#ffffff",
+        AppbarBackground = "#E5E5E5",
+        DrawerBackground = "#E5E5E5",
         GrayLight = "#e8e8e8",
         GrayLighter = "#f9f9f9",
     };
