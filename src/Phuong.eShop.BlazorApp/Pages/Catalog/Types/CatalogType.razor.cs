@@ -2,7 +2,7 @@ namespace Phuong.eShop.BlazorApp.Pages.Catalog.Types;
 
 public partial class CatalogType : ComponentBase
 {
-    [CascadingParameter]
+    [Inject]
     public required PageInfo PageInfo { get; set; }
 
     [Inject]

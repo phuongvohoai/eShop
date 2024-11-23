@@ -2,7 +2,7 @@ namespace Phuong.eShop.BlazorApp.Pages.Catalog.Brand;
 
 public partial class CatalogBrand : ComponentBase
 {
-    [CascadingParameter]
+    [Inject]
     public required PageInfo PageInfo { get; set; }
 
     [Inject]
