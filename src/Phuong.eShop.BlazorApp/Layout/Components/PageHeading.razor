@@ -1,0 +1,8 @@
+<PageTitle>@(PageInfo.PageTitle ?? "eShop Admin")</PageTitle>
+<MudText Typo="Typo.h5">@PageInfo.PageTitle</MudText>
+
+@code {
+    
+    [CascadingParameter]
+    public required PageInfo PageInfo { get; set; }
+}

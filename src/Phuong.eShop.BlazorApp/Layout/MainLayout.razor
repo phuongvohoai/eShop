@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@using Phuong.eShop.BlazorApp.Layout.Components
+@inherits LayoutComponentBase
 
 <MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
@@ -6,8 +7,10 @@
 <MudSnackbarProvider />
 <MudLayout Class="d-flex" Style="height: 100vh;">
     <MudAppBar Elevation="0">
-        <MudImage Src="eShop-logo.webp" Class="rounded-lg" Width="58" Height="58" ObjectFit="ObjectFit.Cover"></MudImage>
-        <MudText Typo="Typo.h5" Class="ml-3"><strong>eShop Admin Dashboard</strong></MudText>
+        <div style="width: 76px;padding-right: 24px;display: flex;align-items: center;justify-content: center;">
+            <MudImage Src="eShop-logo.webp" Class="rounded-lg" Width="58" Height="58" ObjectFit="ObjectFit.Cover"></MudImage>
+        </div>
+        <MudText Typo="Typo.h5"><strong>eShop Admin Dashboard</strong></MudText>
         <MudSpacer/>
         <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle"/>
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End"/>
