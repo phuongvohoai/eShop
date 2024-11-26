@@ -35,7 +35,6 @@ internal class MigrationHostedService<TContext>(IServiceProvider serviceProvider
         catch (Exception ex)
         {
             logger.LogError(ex, "An error occurred while migrating the database used on context {DbContextName}", typeof(TContext).Name);
-            throw;
         }
     }
 
