@@ -1,5 +1,3 @@
-using Phuong.eShop.BlazorApp.Application.Interfaces;
-
 namespace Phuong.eShop.BlazorApp.Application.Services;
 
 public class CatalogBrandService : ICatalogBrandService
@@ -24,7 +22,7 @@ public class CatalogBrandService : ICatalogBrandService
         return null;
     }
 
-    public Task DeleteAsync(int id)
+    public Task DeleteAsync(long id)
     {
         return null;
     }
