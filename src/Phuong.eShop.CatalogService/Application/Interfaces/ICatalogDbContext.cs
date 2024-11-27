@@ -7,6 +7,8 @@ public interface ICatalogDbContext
     DbSet<CatalogType> CatalogTypes { get; set; }
     
     DbSet<CatalogItem> CatalogItems { get; set; }
-    
+    DbSet<Cart> Carts { get; set; }
+
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

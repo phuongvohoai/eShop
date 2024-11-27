@@ -1,9 +1,9 @@
-import ShoppingCart from "@/components/cart/shopping-cart";
+import CartItemList from "@/components/cart/cart-item-list";
 
 export default async function Cart() {
   return (
     <div>
-      <ShoppingCart />
+      <CartItemList />
     </div>
   )
 }

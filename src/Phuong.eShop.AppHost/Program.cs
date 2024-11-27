@@ -3,7 +3,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 var postgres = builder
     .AddPostgres("postgres")
     .WithDataVolume()
-    .WithPgWeb();
+    .WithPgAdmin();
 
 builder.AddProject<Projects.Phuong_eShop_IdentityService>("IdentityService")
     .WithReference(postgres.AddDatabase("identityDb"));
