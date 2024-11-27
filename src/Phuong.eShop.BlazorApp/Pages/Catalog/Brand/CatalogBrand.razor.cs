@@ -21,7 +21,7 @@ public partial class CatalogBrand : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         _pageInfo.PageTitle = "Catalog Brand";
-        _catalogBrands = await _catalogBrandService.ListAllAsync();
+        _catalogBrands = await _catalogBrandService.GetAllAsync();
     }
 
     private Func<CatalogBrandDto, bool> QuickFilter =>

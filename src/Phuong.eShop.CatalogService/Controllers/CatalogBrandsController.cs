@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Phuong.eShop.CatalogService.Application.CatalogBrands.Commands;
 using Phuong.eShop.CatalogService.Application.CatalogBrands.Models;
 using Phuong.eShop.CatalogService.Application.CatalogBrands.Queries;
@@ -5,6 +6,7 @@ using Phuong.eShop.CatalogService.Application.CatalogBrands.Queries;
 namespace Phuong.eShop.CatalogService.Controllers;
 
 [Route("api/catalog/brands")]
+[Authorize]
 public class CatalogBrandsController : BaseApiController
 {
     [HttpGet]

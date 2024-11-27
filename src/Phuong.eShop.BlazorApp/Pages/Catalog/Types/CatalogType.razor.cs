@@ -16,7 +16,7 @@ public partial class CatalogType : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         PageInfo.PageTitle = "Catalog Type";
-        _catalogTypes = await CatalogTypeService.ListAllAsync();
+        _catalogTypes = await CatalogTypeService.GetAllAsync();
     }
 
     private Func<CatalogTypeDto, bool> QuickFilter =>

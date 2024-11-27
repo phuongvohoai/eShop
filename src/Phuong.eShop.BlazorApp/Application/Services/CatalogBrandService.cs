@@ -1,29 +1,23 @@
 namespace Phuong.eShop.BlazorApp.Application.Services;
 
-public class CatalogBrandService : ICatalogBrandService
+public class CatalogBrandService(IHttpClientFactory clientFactory) : CatalogApiServiceBase(clientFactory), ICatalogBrandService
 {
-    public Task<List<CatalogBrandDto>> ListAllAsync()
+    public async Task<List<CatalogBrandDto>> GetAllAsync()
     {
-        return Task.FromResult(new List<CatalogBrandDto>()
-        {
-            new CatalogBrandDto() { Id = 1, Name = "Brand 1" },
-            new CatalogBrandDto() { Id = 2, Name = "Brand 2" },
-            new CatalogBrandDto() { Id = 3, Name = "Brand 3" },
-            new CatalogBrandDto() { Id = 4, Name = "Brand 4" },
-        });
+        return await GetAllAsync<CatalogBrandDto>("api/catalog/brands");
     }
-    public Task<CatalogBrandDto> CreateAsync(CatalogBrandDto catalogBrand)
+    public async Task<CatalogBrandDto?> CreateAsync(CatalogBrandDto catalogBrand)
     {
-        return null;
+        return await PostAsync("api/catalog/brands", catalogBrand);
     }
 
-    public Task UpdateAsync(CatalogBrandDto catalogBrand)
+    public async Task UpdateAsync(CatalogBrandDto catalogBrand)
     {
-        return null;
+        await PutAsync($"api/catalog/brands/{catalogBrand.Id}", catalogBrand);
     }
 
-    public Task DeleteAsync(long id)
+    public async Task DeleteAsync(long id)
     {
-        return null;
+        await HttpClient.DeleteAsync($"api/catalog/brands/{id}");
     }
 }

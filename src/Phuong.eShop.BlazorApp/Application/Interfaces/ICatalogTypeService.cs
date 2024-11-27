@@ -2,8 +2,8 @@ namespace Phuong.eShop.BlazorApp.Application.Interfaces;
 
 public interface ICatalogTypeService
 {
-    Task<List<CatalogTypeDto>> ListAllAsync();
-    Task<CatalogTypeDto> CreateAsync(CatalogTypeDto catalogBrand);
-    Task UpdateAsync(CatalogTypeDto catalogBrand);
+    Task<List<CatalogTypeDto>> GetAllAsync();
+    Task<CatalogTypeDto?> CreateAsync(CatalogTypeDto catalogType);
+    Task UpdateAsync(CatalogTypeDto catalogType);
     Task DeleteAsync(int id);
 }
