@@ -35,4 +35,6 @@ export const decrementItemQuantity = (id: number) => {
     else return;
 }
 
+
+
 export const useCartStore = () => useSnapshot(cartStore);

@@ -39,7 +39,6 @@ public class CatalogSeed(IWebHostEnvironment env, ILogger<CatalogSeed> logger) :
     {
         var catalogItems = sourceItems.Select(source => new CatalogItem
         {
-            Id = source.Id,
             Name = source.Name,
             Description = source.Description,
             Price = source.Price,
