@@ -1,15 +1,11 @@
 using Phuong.eShop.CatalogService.Application.CatalogBrands.Models;
 namespace Phuong.eShop.CatalogService.Application.CatalogBrands.Queries;
-
-public record GetCatalogBrandsQuery : IRequest<List<CatalogBranchDto>>;
-
-public class GetCatalogBrandsQueryHandler(ICatalogDbContext context) : IRequestHandler<GetCatalogBrandsQuery, List<CatalogBranchDto>>
+public record GetCatalogBrandsQuery : IRequest<ApiResponse<List<CatalogBrandDto>>>;
+public class GetCatalogBrandsQueryHandler(ICatalogDbContext context) : IRequestHandler<GetCatalogBrandsQuery, ApiResponse<List<CatalogBrandDto>>>
 {
-    public async Task<List<CatalogBranchDto>> Handle(GetCatalogBrandsQuery request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<List<CatalogBrandDto>>> Handle(GetCatalogBrandsQuery request, CancellationToken cancellationToken)
     {
-        return await context.CatalogBrands
-            .AsNoTracking()
-            .ProjectToType<CatalogBranchDto>()
-            .ToListAsync(cancellationToken);
+        var catalogBrand = await context.CatalogBrands.AsNoTracking().ToListAsync(cancellationToken);
+        return catalogBrand.Adapt<List<CatalogBrandDto>>();
     }
 }

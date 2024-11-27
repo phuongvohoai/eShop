@@ -1,3 +1,3 @@
 namespace Phuong.eShop.CatalogService.Application.CatalogBrands.Models;
 
-public record CatalogBranchDto(long Id, string Name);
+public record CatalogBrandDto(long Id, string Name);
