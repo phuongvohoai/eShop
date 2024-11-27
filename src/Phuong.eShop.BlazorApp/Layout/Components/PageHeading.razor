@@ -1,0 +1,21 @@
+@implements IDisposable
+
+<PageTitle>@(PageInfo.PageTitle ?? "eShop Admin")</PageTitle>
+<MudText Typo="Typo.h5">@PageInfo.PageTitle</MudText>
+
+@code {
+
+    [Inject]
+    public required PageInfo PageInfo { get; set; }
+
+    protected override void OnInitialized()
+    {
+        PageInfo.OnPageTitleChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        PageInfo.OnPageTitleChanged -= StateHasChanged;
+    }
+
+}

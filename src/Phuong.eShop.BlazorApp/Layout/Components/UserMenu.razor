@@ -1,0 +1,34 @@
+﻿@inject NavigationManager Navigation
+
+<AuthorizeView>
+    <Authorized Context="Auth">
+        <MudMenu ActivationEvent="@MouseEvent.LeftClick" Class="mx-2" AnchorOrigin="Origin.CenterLeft" TransformOrigin="Origin.TopRight">
+            <ActivatorContent>
+                <MudBadge Class="avatar-badge" Origin="Origin.BottomRight"
+                          Overlap="true"
+                          Icon="@Icons.Material.Filled.ExpandMore"
+                          Color="Color.Default">
+                    <MudAvatar Color="Color.Primary" Variant="Variant.Outlined">
+                        <MudIcon Icon="@Icons.Custom.Brands.MudBlazor" />
+                    </MudAvatar>
+                </MudBadge>
+            </ActivatorContent>
+            <ChildContent>
+                @if (Auth?.User?.Identity != null)
+                {
+                    <MudMenuItem Style="text-align:center"><strong>Hello @Auth.User.Identity?.Name!</strong></MudMenuItem>
+                    <MudDivider />
+                }
+                <MudMenuItem Icon="@Icons.Material.Filled.Help" Href="mailto:support@eshop.com">Help & Support</MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="@BeginLogOut">Sign Out</MudMenuItem>
+            </ChildContent>
+        </MudMenu>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    public void BeginLogOut()
+    {
+        Navigation.NavigateToLogout("authentication/logout");
+    }
+}

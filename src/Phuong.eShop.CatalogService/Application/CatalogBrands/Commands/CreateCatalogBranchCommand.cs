@@ -1,10 +1,13 @@
+using Mapster;
+using Phuong.eShop.CatalogService.Application.CatalogBrands.Models;
+
 namespace Phuong.eShop.CatalogService.Application.CatalogBrands.Commands;
 
-public record CreateCatalogBranchCommand(string Name) : IRequest<long>;
+public record CreateCatalogBranchCommand(string Name) : IRequest<ApiResponse<CatalogBranchDto>>;
 
-public class CreateCatalogBranchCommandHandler(ICatalogDbContext context) : IRequestHandler<CreateCatalogBranchCommand, long>
+public class CreateCatalogBranchCommandHandler(ICatalogDbContext context) : IRequestHandler<CreateCatalogBranchCommand, ApiResponse<CatalogBranchDto>>
 {
-    public async Task<long> Handle(CreateCatalogBranchCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<CatalogBranchDto>> Handle(CreateCatalogBranchCommand request, CancellationToken cancellationToken)
     {
         var entity = new CatalogBrand
         {
@@ -12,6 +15,7 @@ public class CreateCatalogBranchCommandHandler(ICatalogDbContext context) : IReq
         };
         context.CatalogBrands.Add(entity);
         await context.SaveChangesAsync(cancellationToken);
-        return entity.Id;
+
+        return entity.Adapt<CatalogBranchDto>();
     }
 }
