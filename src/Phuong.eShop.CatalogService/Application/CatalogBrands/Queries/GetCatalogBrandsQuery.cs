@@ -1,5 +1,4 @@
 using Phuong.eShop.CatalogService.Application.CatalogBrands.Models;
-
 namespace Phuong.eShop.CatalogService.Application.CatalogBrands.Queries;
 
 public record GetCatalogBrandsQuery : IRequest<List<CatalogBranchDto>>;
