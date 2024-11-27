@@ -1,3 +1,7 @@
+using System.Net;
+using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Phuong.eShop.CatalogService.Application.CatalogItems.Commands;
 using Phuong.eShop.CatalogService.Application.CatalogItems.Queries;
 using Phuong.eShop.CatalogService.Application.Common;
 
@@ -43,5 +47,33 @@ public class CatalogItemsController(IWebHostEnvironment env) : BaseApiController
 
         var path = Path.Combine(env.ContentRootPath, "Pics", catalogItem.PictureUri);
         return PhysicalFile(path, "image/webp");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post([FromBody]CreateCatalogItemCommand request)
+    {
+        await Mediator.Send(request);
+        return Ok("Create Successfully!");
+    }
+    [HttpDelete("{id:long}")]
+    public async Task<IActionResult> DeleteById(long id)
+    {
+        var catalogItem = await Mediator.Send( new DeleteCatalogItemCommand(id));
+        if (catalogItem ==0 )
+        {
+            return NotFound();
+        }
+        return Ok("Delete Successfully!");
+    }
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateById([FromBody] UpdateCatalogItemCommand request, int id)
+    {
+        request.Id = id;
+        var catalogItem = await Mediator.Send(request);
+        if (catalogItem == 0)
+        {
+            return NotFound();
+        }
+        return Ok("Update Successfully!");
     }
 }

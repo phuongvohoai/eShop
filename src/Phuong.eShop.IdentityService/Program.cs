@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Denpendency Inject (SOLID) Container
 builder.AddApiServices();
 
-builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+builder.Services.AddAuthentication(IdentityConstants.BearerScheme)
     .AddCookie(IdentityConstants.ApplicationScheme)
     .AddBearerToken(IdentityConstants.BearerScheme);
 builder.Services.AddAuthorizationBuilder();
@@ -22,6 +22,9 @@ builder.Services.AddMigration<AppDbContext, AppDbContextSeed>();
 builder.Services.AddCors();
 
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.ConfigureApiServiceMiddleware();
 
