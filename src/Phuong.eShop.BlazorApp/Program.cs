@@ -15,6 +15,7 @@ builder.Services.AddHttpClient("CatalogApi", client => client.BaseAddress = new(
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped(sp => new PageInfo());
+builder.Services.AddScoped(sp => new PageInfo());
 builder.Services.AddMudServices();
 builder.Services.AddScoped<ICatalogBrandService, CatalogBrandService>();
 builder.Services.AddScoped<ICatalogTypeService, CatalogTypeService>();

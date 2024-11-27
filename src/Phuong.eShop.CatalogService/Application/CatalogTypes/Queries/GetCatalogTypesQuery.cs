@@ -1,14 +1,12 @@
+using Phuong.eShop.CatalogService.Application.CatalogTypes.Models;
 namespace Phuong.eShop.CatalogService.Application.CatalogTypes.Queries;
+public record GetCatalogTypesQuery : IRequest<ApiResponse<List<CatalogTypeDto>>>;
 
-public record GetCatalogTypesQuery : IRequest<List<CatalogTypeDto>>;
-
-public class GetCatalogTypesQueryHandler(ICatalogDbContext context) : IRequestHandler<GetCatalogTypesQuery, List<CatalogTypeDto>>
+public class GetCatalogTypesQueryHandler(ICatalogDbContext context) : IRequestHandler<GetCatalogTypesQuery, ApiResponse<List<CatalogTypeDto>>>
 {
-    public async Task<List<CatalogTypeDto>> Handle(GetCatalogTypesQuery request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<List<CatalogTypeDto>>> Handle(GetCatalogTypesQuery request, CancellationToken cancellationToken)
     {
-        return await context.CatalogTypes
-            .AsNoTracking()
-            .ProjectToType<CatalogTypeDto>()
-            .ToListAsync(cancellationToken);
+        var catalogType = await context.CatalogTypes.AsNoTracking().ToListAsync(cancellationToken);
+        return catalogType.Adapt<List<CatalogTypeDto>>();
     }
 }

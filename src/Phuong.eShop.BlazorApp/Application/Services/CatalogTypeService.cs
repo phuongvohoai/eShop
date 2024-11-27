@@ -1,3 +1,5 @@
+using Phuong.eShop.BlazorApp.Application.Interfaces;
+
 namespace Phuong.eShop.BlazorApp.Application.Services;
 
 public class CatalogTypeService(IHttpClientFactory clientFactory) : CatalogApiServiceBase(clientFactory), ICatalogTypeService
@@ -6,7 +8,7 @@ public class CatalogTypeService(IHttpClientFactory clientFactory) : CatalogApiSe
     {
         return await GetAllAsync<CatalogTypeDto>("api/catalog/types");
     }
-
+    
     public async Task<CatalogTypeDto?> CreateAsync(CatalogTypeDto catalogType)
     {
         return await PostAsync("api/catalog/types", catalogType);
