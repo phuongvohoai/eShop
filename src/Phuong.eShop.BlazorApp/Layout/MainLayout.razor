@@ -1,5 +1,4 @@
-﻿@using Phuong.eShop.BlazorApp.Layout.Components
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 
 <MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
@@ -13,7 +12,7 @@
         <MudText Typo="Typo.h5"><strong>eShop Admin Dashboard</strong></MudText>
         <MudSpacer/>
         <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle"/>
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End"/>
+        <UserMenu />
     </MudAppBar>
     <MudDrawer Open="true" Width="100px" ClipMode="DrawerClipMode.Always" Fixed="true" Elevation="0">
         <NavMenu />
