@@ -14,16 +14,19 @@ public class CatalogBrandsController : BaseApiController
     {
         return Mediator.Send(new GetCatalogBrandsQuery());
     }
+
     [HttpGet("{id:long}")]
     public Task<ApiResponse<CatalogBrandDto>> GetById(long id)
     {
         return Mediator.Send(new GetCatalogBrandByIdQuery(id));
     }
+
     [HttpPost]
     public Task<ApiResponse<CatalogBrandDto>> Create([FromBody] CreateCatalogBrandCommand command)
     {
         return Mediator.Send(command);
     }
+
     [HttpPut("{id}")]
     public Task<ApiResponse<CatalogBrandDto>> Update(int id, [FromBody] UpdateCatalogBrandCommand command)
     {
@@ -32,6 +35,7 @@ public class CatalogBrandsController : BaseApiController
             Id = id
         });
     }
+
     [HttpDelete("{id:long}")]
     public Task<ApiResponse<bool>> DeleteById(long id)
     {

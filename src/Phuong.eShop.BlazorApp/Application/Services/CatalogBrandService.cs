@@ -8,12 +8,12 @@ public class CatalogBrandService(IHttpClientFactory clientFactory) : CatalogApiS
     }
     public async Task<CatalogBrandDto?> CreateAsync(CatalogBrandDto catalogBrand)
     {
-        return await PostAsync("api/catalog/brands", catalogBrand);
+        return await PostAsync<CatalogBrandDto?>("api/catalog/brands", catalogBrand);
     }
 
-    public async Task UpdateAsync(CatalogBrandDto catalogBrand)
+    public async Task<CatalogBrandDto?> UpdateAsync(CatalogBrandDto catalogBrand)
     {
-        await PutAsync($"api/catalog/brands/{catalogBrand.Id}", catalogBrand);
+        return await PutAsync<CatalogBrandDto?>($"api/catalog/brands/{catalogBrand.Id}", catalogBrand);
     }
 
     public async Task DeleteAsync(long id)

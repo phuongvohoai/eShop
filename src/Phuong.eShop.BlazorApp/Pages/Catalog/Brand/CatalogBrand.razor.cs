@@ -5,23 +5,25 @@ namespace Phuong.eShop.BlazorApp.Pages.Catalog.Brand;
 public partial class CatalogBrand : ComponentBase
 {
     [Inject]
-    private PageInfo _pageInfo { get; set; }
+    private PageInfo PageInfo { get; set; }
 
     [Inject]
-    private ICatalogBrandService _catalogBrandService { get; set; }
+    private ICatalogBrandService CatalogBrandService { get; set; }
 
     [Inject]
-    private IDialogService _dialogService { get; set; }
+    private IDialogService DialogService { get; set; }
+
+    [Inject]
+    private ISnackbar Snackbar { get; set; }
 
     private string? _searchString;
     private List<CatalogBrandDto> _catalogBrands = [];
-    private CatalogBrandDto _selectedCatalogBrand = new();
     private HashSet<CatalogBrandDto> _selectedCatalogBrands = [];
 
     protected override async Task OnInitializedAsync()
     {
-        _pageInfo.PageTitle = "Catalog Brand";
-        _catalogBrands = await _catalogBrandService.GetAllAsync();
+        PageInfo.PageTitle = "Catalog Brand";
+        _catalogBrands = await CatalogBrandService.GetAllAsync();
     }
 
     private Func<CatalogBrandDto, bool> QuickFilter =>
@@ -30,22 +32,36 @@ public partial class CatalogBrand : ComponentBase
     private async Task OnAdd()
     {
         var parameters = new DialogParameters<CreateOrUpdateBrandDialog> { { x => x.CatalogBrand, new CatalogBrandDto() } };
-        await _dialogService.ShowAsync<CreateOrUpdateBrandDialog>("Create Catalog Brand", parameters);
+        var dialogReference = await DialogService.ShowAsync<CreateOrUpdateBrandDialog>("Create Catalog Brand", parameters);
+        var addedBrand = await dialogReference.GetReturnValueAsync<CatalogBrandDto>();
+        if (addedBrand != null)
+        {
+            _catalogBrands.Add(addedBrand);
+            Snackbar.Add($"Catalog brand '{addedBrand.Name}' created", Severity.Success);
+        }
     }
-    
+
     private async Task OnEdit(CatalogBrandDto catalogBrand)
     {
         var parameters = new DialogParameters<CreateOrUpdateBrandDialog> { { x => x.CatalogBrand, catalogBrand } };
-        await _dialogService.ShowAsync<CreateOrUpdateBrandDialog>($"Update Catalog Brand #{catalogBrand.Id}", parameters);
+        var dialogReference =  await DialogService.ShowAsync<CreateOrUpdateBrandDialog>($"Update Catalog Brand #{catalogBrand.Id}", parameters);
+        var updatedBrand = await dialogReference.GetReturnValueAsync<CatalogBrandDto>();
+        if (updatedBrand != null)
+        {
+            var index = _catalogBrands.FindIndex(x => x.Id == updatedBrand.Id);
+            _catalogBrands[index] = updatedBrand;
+            Snackbar.Add($"Catalog brand '{updatedBrand.Name}' updated", Severity.Success);
+        }
     }
-    
+
     private async Task OnDelete(CatalogBrandDto catalogBrand)
     {
-        var dialogResult = await _dialogService.ShowMessageBox("Delete Catalog Brand", $"Are you sure you want to delete the catalog brand '{catalogBrand.Name}'?" );
+        var dialogResult = await DialogService.ShowMessageBox("Delete Catalog Brand", $"Are you sure you want to delete the catalog brand '{catalogBrand.Name}'?");
         if (dialogResult == true)
         {
-            await _catalogBrandService.DeleteAsync(catalogBrand.Id);
+            await CatalogBrandService.DeleteAsync(catalogBrand.Id);
             _catalogBrands.Remove(catalogBrand);
+            Snackbar.Add($"Catalog brand '{catalogBrand.Name}' deleted", Severity.Success);
         }
     }
 }

@@ -2,9 +2,6 @@
 
 <MudGrid>
     <MudItem xs="12">
-        <CatalogTypeEditForm CatalogType="_selectedCatalogType"></CatalogTypeEditForm>
-    </MudItem>
-    <MudItem xs="12">
         <MudDataGrid Items="_catalogTypes" ReadOnly="false" SortMode="SortMode.Single" Filterable="true"
                      QuickFilter="QuickFilter" Hover="true" @bind-SelectedItems="_selectedCatalogTypes"
                      Striped="true" EditMode="DataGridEditMode.Form" EditTrigger="DataGridEditTrigger.Manual"
@@ -12,7 +9,7 @@
             <ToolBarContent>
                 <MudStack Row="true" Spacing="2">
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Outlined.Add"
-                               OnClick="() => _selectedCatalogType = new CatalogTypeDto()">Add Type
+                               OnClick="OnAdd">Add Type
                     </MudButton>
                     @if (_selectedCatalogTypes.Count > 0)
                     {
@@ -34,14 +31,18 @@
                 <PropertyColumn Property="a => a.Name" Title="Catalog Type Name"/>
                 <TemplateColumn CellClass="d-flex justify-end gap-2" HeaderStyle="width: 100px;">
                     <CellTemplate>
-                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit"
-                                       OnClick="() => _selectedCatalogType = context.Item"/>
-                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete"
-                                       Color="Color.Secondary"/>
+                        <MudButton Size="@Size.Small" StartIcon="@Icons.Material.Outlined.Edit"
+                                   OnClick="() => OnEdit(context.Item)" Variant="Variant.Outlined">
+                            Update
+                        </MudButton>
+                        <MudButton Size="@Size.Small" StartIcon="@Icons.Material.Outlined.Delete"
+                                   Color="Color.Secondary" OnClick="() => OnDelete(context.Item)"
+                                   Variant="Variant.Outlined">
+                            Delete
+                        </MudButton>
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
-
             <PagerContent>
                 <MudDataGridPager T="CatalogTypeDto"/>
             </PagerContent>
