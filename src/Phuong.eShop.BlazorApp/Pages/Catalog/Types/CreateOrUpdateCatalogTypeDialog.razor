@@ -1,6 +1,6 @@
 <MudDialog ContentStyle="width: 400px;">
     <DialogContent>
-        <MudTextField @bind-Value="CatalogBrand.Name" For="@(() => CatalogBrand.Name)" Label="Brand Name"
+        <MudTextField @bind-Value="CatalogType.Name" For="@(() => CatalogType.Name)" Label="Type Name"
                       Variant="Variant.Outlined" Margin="Margin.Dense" ShrinkLabel="true" />
     </DialogContent>
     <DialogActions>
@@ -14,24 +14,24 @@
     private MudDialogInstance MudDialog { get; set; } = null!;
 
     [Parameter]
-    public required CatalogBrandDto CatalogBrand { get; set; }
+    public required CatalogTypeDto CatalogType { get; set; }
 
     [Inject]
-    private ICatalogBrandService CatalogBrandService { get; set; }
+    private ICatalogTypeService CatalogTypeService { get; set; }
 
     [Inject]
     private ISnackbar Snackbar { get; set; }
 
     private async Task Submit()
     {
-        CatalogBrandDto? result = null;
-        if (CatalogBrand.Id == 0)
+        CatalogTypeDto? result = null;
+        if (CatalogType.Id == 0)
         {
-            result = await CatalogBrandService.CreateAsync(CatalogBrand);
+            result = await CatalogTypeService.CreateAsync(CatalogType);
         }
         else
         {
-            result = await CatalogBrandService.UpdateAsync(CatalogBrand);
+            result = await CatalogTypeService.UpdateAsync(CatalogType);
         }
 
         if (result == null)
