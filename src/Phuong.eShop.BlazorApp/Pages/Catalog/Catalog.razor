@@ -1,7 +1,52 @@
 @page "/catalog"
 
-<h3>Catalog</h3>
+<MudDataGrid Items="_catalogItems" ReadOnly="false" SortMode="SortMode.Single" Filterable="true"
+             QuickFilter="QuickFilter" Hover="true" @bind-SelectedItems="_selectedCatalogItems"
+             Striped="true" EditMode="DataGridEditMode.Form" EditTrigger="DataGridEditTrigger.Manual"
+             Elevation="5" MultiSelection="true">
+    <ToolBarContent>
+        <MudStack Row="true" Spacing="2">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Outlined.Add"
+                       OnClick="OnAdd">Add Catalog Item
+            </MudButton>
+            @if (_selectedCatalogItems.Count > 0)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary"StartIcon="@Icons.Material.Outlined.Delete">
+                    Bulk Delete
+                </MudButton>
+            }
+        </MudStack>
+        <MudSpacer/>
+        <MudTextField @bind-Value="_searchString" Placeholder="Search" Variant="Variant.Outlined"
+                      Adornment="Adornment.Start" Immediate="true" DebounceInterval="300" Margin="Margin.Dense"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"
+                      Class="mt-0"></MudTextField>
+    </ToolBarContent>
 
-@code {
-    
-}
+    <Columns>
+        <SelectColumn T="CatalogItemDto"/>
+        <PropertyColumn Property="a => a.Id" HeaderStyle="width: 200px" Title="Id"/>
+        <PropertyColumn Property="a => a.Name" Title="Catalog Type Name"/>
+        <PropertyColumn Property="a => a.Description" Title="Description"/>
+        <PropertyColumn Property="a => a.Price" Title="Price" Format="C"/>
+        <PropertyColumn Property="a => a.AvailableStock" Title="Available Stock"/>
+        <PropertyColumn Property="a => a.CatalogBrand" Title="Brand"/>
+        <PropertyColumn Property="a => a.CatalogType" Title="Type"/>
+        <TemplateColumn CellClass="d-flex justify-end gap-2" HeaderStyle="width: 100px;">
+            <CellTemplate>
+                <MudButton Size="@Size.Small" StartIcon="@Icons.Material.Outlined.Edit"
+                           OnClick="() => OnEdit(context.Item)" Variant="Variant.Outlined">
+                    Update
+                </MudButton>
+                <MudButton Size="@Size.Small" StartIcon="@Icons.Material.Outlined.Delete"
+                           Color="Color.Secondary" OnClick="() => OnDelete(context.Item)"
+                           Variant="Variant.Outlined">
+                    Delete
+                </MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="CatalogItemDto"/>
+    </PagerContent>
+</MudDataGrid>

@@ -5,18 +5,18 @@ namespace Phuong.eShop.BlazorApp.Pages.Catalog.Brand;
 public partial class CatalogBrand : ComponentBase
 {
     [Inject]
-    private PageInfo PageInfo { get; set; }
+    private PageInfo PageInfo { get; set; } = default!;
 
     [Inject]
-    private ICatalogBrandService CatalogBrandService { get; set; }
+    private ICatalogBrandService CatalogBrandService { get; set; } = default!;
 
     [Inject]
-    private IDialogService DialogService { get; set; }
+    private IDialogService DialogService { get; set; } = default!;
 
     [Inject]
-    private ISnackbar Snackbar { get; set; }
+    private ISnackbar Snackbar { get; set; } = default!;
 
-    private string? _searchString;
+    private string _searchString = string.Empty;
     private List<CatalogBrandDto> _catalogBrands = [];
     private HashSet<CatalogBrandDto> _selectedCatalogBrands = [];
 
@@ -44,7 +44,7 @@ public partial class CatalogBrand : ComponentBase
     private async Task OnEdit(CatalogBrandDto catalogBrand)
     {
         var parameters = new DialogParameters<CreateOrUpdateBrandDialog> { { x => x.CatalogBrand, catalogBrand } };
-        var dialogReference =  await DialogService.ShowAsync<CreateOrUpdateBrandDialog>($"Update Catalog Brand #{catalogBrand.Id}", parameters);
+        var dialogReference = await DialogService.ShowAsync<CreateOrUpdateBrandDialog>($"Update Catalog Brand #{catalogBrand.Id}", parameters);
         var updatedBrand = await dialogReference.GetReturnValueAsync<CatalogBrandDto>();
         if (updatedBrand != null)
         {

@@ -1,7 +1,7 @@
 <MudDialog ContentStyle="width: 400px;">
     <DialogContent>
         <MudTextField @bind-Value="CatalogBrand.Name" For="@(() => CatalogBrand.Name)" Label="Brand Name"
-                      Variant="Variant.Outlined" Margin="Margin.Dense" ShrinkLabel="true" />
+                      Variant="Variant.Outlined" Margin="Margin.Dense" ShrinkLabel="true"/>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -10,6 +10,7 @@
 </MudDialog>
 
 @code {
+
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; } = null!;
 
@@ -17,10 +18,10 @@
     public required CatalogBrandDto CatalogBrand { get; set; }
 
     [Inject]
-    private ICatalogBrandService CatalogBrandService { get; set; }
+    private ICatalogBrandService CatalogBrandService { get; set; } = default!;
 
     [Inject]
-    private ISnackbar Snackbar { get; set; }
+    private ISnackbar Snackbar { get; set; } = default!;
 
     private async Task Submit()
     {

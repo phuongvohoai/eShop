@@ -17,14 +17,14 @@
     public required CatalogTypeDto CatalogType { get; set; }
 
     [Inject]
-    private ICatalogTypeService CatalogTypeService { get; set; }
+    private ICatalogTypeService CatalogTypeService { get; set; } = default!;
 
     [Inject]
-    private ISnackbar Snackbar { get; set; }
+    private ISnackbar Snackbar { get; set; } = default!;
 
     private async Task Submit()
     {
-        CatalogTypeDto? result = null;
+        CatalogTypeDto? result;
         if (CatalogType.Id == 0)
         {
             result = await CatalogTypeService.CreateAsync(CatalogType);
@@ -36,7 +36,7 @@
 
         if (result == null)
         {
-            Snackbar.Add("An error occurred while saving the brand.", Severity.Error);
+            Snackbar.Add("An error occurred while saving the type.", Severity.Error);
         }
 
         MudDialog.Close(DialogResult.Ok(result));
