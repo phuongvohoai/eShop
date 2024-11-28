@@ -1,0 +1,86 @@
+<MudDialog ContentStyle="width: 600px;" ContentClass="d-flex flex-column gap-2">
+    <DialogContent>
+        <MudTextField @bind-Value="CatalogItem.Name" For="@(() => CatalogItem.Name)" Label="Name"
+                      Variant="Variant.Outlined" Margin="Margin.Dense" ShrinkLabel="true"/>
+
+        <MudTextField @bind-Value="CatalogItem.Description" For="@(() => CatalogItem.Description)" Label="Description"
+                      Variant="Variant.Outlined" Margin="Margin.Dense" ShrinkLabel="true"/>
+
+        <MudNumericField @bind-Value="CatalogItem.Price" For="@(() => CatalogItem.Price)" Label="Price"
+                         Variant="Variant.Outlined" Margin="Margin.Dense" ShrinkLabel="true"/>
+
+        <MudNumericField @bind-Value="CatalogItem.AvailableStock" For="@(() => CatalogItem.AvailableStock)"
+                         Label="Available Stock"
+                         Variant="Variant.Outlined" Margin="Margin.Dense" ShrinkLabel="true"/>
+
+        <MudAutocomplete T="CatalogBrandDto" Label="Catalog Brand" @bind-Value="CatalogItem.CatalogBrandNavigation"
+                         SearchFunc="@SearchBrand" ToStringFunc="s => s.Name" Variant="Variant.Outlined"
+                         ResetValueOnEmptyText="true" Dense="true" ShrinkLabel="true" Margin="Margin.Dense"
+                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"/>
+
+        <MudAutocomplete T="CatalogTypeDto" Label="Catalog Type" @bind-Value="CatalogItem.CatalogTypeNavigation"
+                         SearchFunc="@SearchType" ToStringFunc="s => s.Name" Variant="Variant.Outlined"
+                         ResetValueOnEmptyText="true" Dense="true" ShrinkLabel="true" Margin="Margin.Dense"
+                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public required CatalogItemDto CatalogItem { get; set; }
+
+    [Parameter]
+    public required List<CatalogBrandDto> CatalogBrands { get; set; }
+
+    [Parameter]
+    public required List<CatalogTypeDto> CatalogTypes { get; set; }
+
+    [Inject]
+    private ICatalogService CatalogService { get; set; } = default!;
+
+    [Inject]
+    private ISnackbar Snackbar { get; set; } = default!;
+
+    private async Task Submit()
+    {
+        CatalogItemDto? result;
+        if (CatalogItem.Id == 0)
+        {
+            result = await CatalogService.CreateAsync(CatalogItem);
+        }
+        else
+        {
+            result = await CatalogService.UpdateAsync(CatalogItem);
+        }
+
+        if (result == null)
+        {
+            Snackbar.Add("An error occurred while saving the catalog item.", Severity.Error);
+        }
+
+        MudDialog.Close(DialogResult.Ok(result));
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task<IEnumerable<CatalogBrandDto>> SearchBrand(string value, CancellationToken token)
+    {
+        await Task.Delay(5, token);
+        return string.IsNullOrEmpty(value) ? CatalogBrands : CatalogBrands.Where(x => x.Name.Contains(value, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task<IEnumerable<CatalogTypeDto>> SearchType(string value, CancellationToken token)
+    {
+        await Task.Delay(5, token);
+        return string.IsNullOrEmpty(value) ? CatalogTypes : CatalogTypes.Where(x => x.Name.Contains(value, StringComparison.OrdinalIgnoreCase));
+    }
+
+}

@@ -19,5 +19,6 @@ builder.Services.AddScoped(sp => new PageInfo());
 builder.Services.AddMudServices();
 builder.Services.AddScoped<ICatalogBrandService, CatalogBrandService>();
 builder.Services.AddScoped<ICatalogTypeService, CatalogTypeService>();
+builder.Services.AddScoped<ICatalogService, CatalogService>();
 
 await builder.Build().RunAsync();

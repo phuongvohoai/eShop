@@ -11,12 +11,12 @@ public partial class CatalogType : ComponentBase
     public required ICatalogTypeService CatalogTypeService { get; set; }
 
     [Inject]
-    private IDialogService DialogService { get; set; }
+    private IDialogService DialogService { get; set; } = default!;
 
     [Inject]
-    private ISnackbar Snackbar { get; set; }
+    private ISnackbar Snackbar { get; set; } = default!;
 
-    private string? _searchString;
+    private string _searchString = string.Empty;
     private List<CatalogTypeDto> _catalogTypes = [];
     private HashSet<CatalogTypeDto> _selectedCatalogTypes = [];
 
