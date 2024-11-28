@@ -1,4 +1,5 @@
 using System.Reflection;
+using Phuong.eShop.CatalogService.Application.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Phuong.eShop.CatalogService.Infrastructure.Persistence;
 using Phuong.eShop.ServiceDefaults.Extensions;
@@ -11,6 +12,7 @@ builder.AddApiServicesWithMediatR(Assembly.GetExecutingAssembly());
 builder.AddNpgsqlDbContext<CatalogDbContext>("catalogDb");
 builder.Services.AddMigration<CatalogDbContext, CatalogSeed>();
 builder.Services.AddScoped<ICatalogDbContext>(sp => sp.GetRequiredService<CatalogDbContext>());
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddMappings(Assembly.GetExecutingAssembly());
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>

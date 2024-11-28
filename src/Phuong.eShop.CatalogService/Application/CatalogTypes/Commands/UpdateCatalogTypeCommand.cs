@@ -1,8 +1,9 @@
 ﻿using Phuong.eShop.CatalogService.Application.CatalogTypes.Models;
+using Phuong.eShop.CatalogService.Application.Common;
 namespace Phuong.eShop.CatalogService.Application.CatalogTypes.Commands
 {
     public record UpdateCatalogTypeCommand(long Id, string Name) : IRequest<ApiResponse<CatalogTypeDto>>;
-    public class UpdateCatalogTypeCommandHandler(ICatalogDbContext context) : IRequestHandler<UpdateCatalogTypeCommand, ApiResponse<CatalogTypeDto>>
+    public class UpdateCatalogTypeCommandHandler(ICatalogDbContext context, IUserService userService) : IRequestHandler<UpdateCatalogTypeCommand, ApiResponse<CatalogTypeDto>>
     {
         public async Task<ApiResponse<CatalogTypeDto>> Handle(UpdateCatalogTypeCommand request, CancellationToken cancellationToken)
         {
@@ -12,6 +13,8 @@ namespace Phuong.eShop.CatalogService.Application.CatalogTypes.Commands
                 return CatalogTypeErrors.NotFound(request.Id);
             }
             catalogType.Name = request.Name;
+            catalogType.ModifiedBy = userService.Name;
+            catalogType.ModifiedAt = DateTime.UtcNow;
             await context.SaveChangesAsync(cancellationToken);
             return catalogType.Adapt<CatalogTypeDto>();
         }
