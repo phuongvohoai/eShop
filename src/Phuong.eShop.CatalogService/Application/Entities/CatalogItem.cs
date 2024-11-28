@@ -1,6 +1,6 @@
 namespace Phuong.eShop.CatalogService.Application.Entities;
 
-public class CatalogItem
+public class CatalogItem : Auditable
 {
     public long Id { get; set; }
     public required string Name { get; set; }
