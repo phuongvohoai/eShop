@@ -1,3 +1,6 @@
+using Aspire.Hosting.ApplicationModel;
+using Google.Protobuf.WellKnownTypes;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var username = builder.AddParameter("username");

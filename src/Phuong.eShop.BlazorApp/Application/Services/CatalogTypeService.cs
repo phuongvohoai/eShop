@@ -1,43 +1,24 @@
-using Phuong.eShop.BlazorApp.Application.Interfaces;
-
 namespace Phuong.eShop.BlazorApp.Application.Services;
 
-public class CatalogTypeService : ICatalogTypeService
+public class CatalogTypeService(IHttpClientFactory clientFactory) : CatalogApiServiceBase(clientFactory), ICatalogTypeService
 {
-    public Task<List<CatalogTypeDto>> ListAllAsync()
+    public async Task<List<CatalogTypeDto>> GetAllAsync()
     {
-        return Task.FromResult<List<CatalogTypeDto>>(new List<CatalogTypeDto>()
-        {
-            new CatalogTypeDto()
-            {
-                Id = 1,
-                Name = "Type 1"
-            },
-            new CatalogTypeDto()
-            {
-                Id = 2,
-                Name = "Type 2"
-            },
-            new CatalogTypeDto()
-            {
-                Id = 3,
-                Name = "Type 3"
-            },
-        });
-    }
-    
-    public Task<CatalogTypeDto> CreateAsync(CatalogTypeDto catalogBrand)
-    {
-        return null;
+        return await GetAllAsync<CatalogTypeDto>("api/catalog/types");
     }
 
-    public Task UpdateAsync(CatalogTypeDto catalogBrand)
+    public async Task<CatalogTypeDto?> CreateAsync(CatalogTypeDto catalogType)
     {
-        return null;
+        return await PostAsync<CatalogTypeDto>("api/catalog/types", catalogType);
     }
 
-    public Task DeleteAsync(int id)
+    public async Task<CatalogTypeDto?> UpdateAsync(CatalogTypeDto catalogType)
     {
-        return null;
+        return await PutAsync<CatalogTypeDto>($"api/catalog/types/{catalogType.Id}", catalogType);
+    }
+
+    public async Task DeleteAsync(long id)
+    {
+        await HttpClient.DeleteAsync($"api/catalog/types/{id}");
     }
 }

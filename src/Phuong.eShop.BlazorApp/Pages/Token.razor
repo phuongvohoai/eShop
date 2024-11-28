@@ -1,0 +1,20 @@
+﻿@inject IAccessTokenProvider AuthorizationService
+
+@page "/access-token"
+
+<h3>AccessToken</h3>
+<p id="access-token">@AccessToken?.Value</p>
+
+@code {
+    public AccessToken? AccessToken { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var accessTokenResult = await AuthorizationService.RequestAccessToken();
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            AccessToken = token;
+        }
+    }
+}
