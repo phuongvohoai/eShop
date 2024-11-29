@@ -1,5 +1,4 @@
-﻿using Phuong.eShop.CatalogService.Application.CatalogItems.Queries;
-using Phuong.eShop.CatalogService.Application.CatalogProducts.Commands;
+﻿using Phuong.eShop.CatalogService.Application.CatalogProducts.Commands;
 using Phuong.eShop.CatalogService.Application.CatalogProducts.Models;
 using Phuong.eShop.CatalogService.Application.CatalogProducts.Queries;
 

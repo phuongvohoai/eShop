@@ -3,6 +3,7 @@
 namespace Phuong.eShop.CatalogService.Application.CatalogProducts.Commands
 {
     public record DeleteCatalogProductCommand(long Id) : IRequest<ApiResponse<bool>>;
+
     public class DeleteCatalogProductCommandHandler(ICatalogDbContext context) : IRequestHandler<DeleteCatalogProductCommand, ApiResponse<bool>>
     {
         public async Task<ApiResponse<bool>> Handle(DeleteCatalogProductCommand command, CancellationToken cancellationToken)

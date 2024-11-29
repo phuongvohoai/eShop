@@ -3,6 +3,7 @@
 namespace Phuong.eShop.CatalogService.Application.CatalogProducts.Commands
 {
     public record UpdateCatalogProductCommand(CatalogProductDto CatalogProduct) : IRequest<ApiResponse<CatalogProductDto>>;
+
     public class UpdateCatalogProductCommandHandler(ICatalogDbContext context, IUserService userService) : IRequestHandler<UpdateCatalogProductCommand, ApiResponse<CatalogProductDto>>
     {
         public async Task<ApiResponse<CatalogProductDto>> Handle(UpdateCatalogProductCommand command, CancellationToken cancellationToken)
