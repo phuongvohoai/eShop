@@ -1,8 +1,10 @@
 ﻿using Phuong.eShop.CatalogService.Application.CatalogTypes.Models;
-using Phuong.eShop.CatalogService.Application.Common;
+
 namespace Phuong.eShop.CatalogService.Application.CatalogTypes.Commands
+
 {
     public record UpdateCatalogTypeCommand(long Id, string Name) : IRequest<ApiResponse<CatalogTypeDto>>;
+
     public class UpdateCatalogTypeCommandHandler(ICatalogDbContext context, IUserService userService) : IRequestHandler<UpdateCatalogTypeCommand, ApiResponse<CatalogTypeDto>>
     {
         public async Task<ApiResponse<CatalogTypeDto>> Handle(UpdateCatalogTypeCommand request, CancellationToken cancellationToken)

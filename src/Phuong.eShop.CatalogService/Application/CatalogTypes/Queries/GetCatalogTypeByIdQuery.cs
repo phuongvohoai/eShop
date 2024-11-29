@@ -3,6 +3,7 @@
 namespace Phuong.eShop.CatalogService.Application.CatalogTypes.Queries
 {
     public record GetCatalogTypeByIdQuery(long Id) : IRequest<ApiResponse<CatalogTypeDto>>;
+
     public class GetCatalogTypeByIdQueryHandler(ICatalogDbContext context) : IRequestHandler<GetCatalogTypeByIdQuery, ApiResponse<CatalogTypeDto>>
     {
         public async Task<ApiResponse<CatalogTypeDto>> Handle(GetCatalogTypeByIdQuery request, CancellationToken cancellation)

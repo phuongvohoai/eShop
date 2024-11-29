@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-
-namespace Phuong.eShop.CatalogService.Controllers;
+﻿namespace Phuong.eShop.CatalogService.Controllers;
 
 [Route("api/files")]
 public class FileUploadController(ICatalogDbContext context) : BaseApiController
@@ -39,6 +37,5 @@ public class FileUploadController(ICatalogDbContext context) : BaseApiController
         }
         return File(file.Content, "image/jpeg");
     }
-
 }
 

@@ -1,5 +1,7 @@
 using Phuong.eShop.CatalogService.Application.CatalogTypes.Models;
+
 namespace Phuong.eShop.CatalogService.Application.CatalogTypes.Queries;
+
 public record GetCatalogTypesQuery : IRequest<ApiResponse<List<CatalogTypeDto>>>;
 
 public class GetCatalogTypesQueryHandler(ICatalogDbContext context) : IRequestHandler<GetCatalogTypesQuery, ApiResponse<List<CatalogTypeDto>>>

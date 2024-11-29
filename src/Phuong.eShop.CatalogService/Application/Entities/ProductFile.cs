@@ -5,6 +5,5 @@
         public int Id { get; set; }
         public string? FileName { get; set; }
         public required byte[] Content { get; set; }
-
     }
 }

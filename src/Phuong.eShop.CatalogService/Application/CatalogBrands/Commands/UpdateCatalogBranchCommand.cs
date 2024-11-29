@@ -16,10 +16,8 @@ public class UpdateCatalogBranchCommandHandler(ICatalogDbContext context) : IReq
         {
             return CatalogBrandErrors.NotFound(request.Id);
         }
-
         entity.Name = request.Name;
         await context.SaveChangesAsync(cancellationToken);
-
         return entity.Adapt<CatalogBrandDto>();
     }
 }
