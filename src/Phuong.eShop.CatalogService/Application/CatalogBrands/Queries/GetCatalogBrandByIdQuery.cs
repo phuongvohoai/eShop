@@ -2,7 +2,7 @@
 
 namespace Phuong.eShop.CatalogService.Application.CatalogBrands.Queries
 {
-    public record GetCatalogBrandByIdQuery(long Id) : IRequest<ApiResponse<CatalogBrandDto>>;\
+    public record GetCatalogBrandByIdQuery(long Id) : IRequest<ApiResponse<CatalogBrandDto>>;
 
     public class GetCatalogBrandByIdHandlerQuery(ICatalogDbContext context) : IRequestHandler<GetCatalogBrandByIdQuery, ApiResponse<CatalogBrandDto>>
     {

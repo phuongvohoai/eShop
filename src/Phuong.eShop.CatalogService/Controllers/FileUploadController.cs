@@ -1,4 +1,8 @@
 ﻿namespace Phuong.eShop.CatalogService.Controllers;
+static class Constants
+{
+    public const long TwoMegabytes = 2097152;
+}
 
 [Route("api/files")]
 public class FileUploadController(ICatalogDbContext context) : BaseApiController
@@ -9,7 +13,7 @@ public class FileUploadController(ICatalogDbContext context) : BaseApiController
         using (var memoryStream = new MemoryStream())
         {
             await formFile.CopyToAsync(memoryStream, cancellationToken);
-            if (memoryStream.Length < 2097152)
+            if (memoryStream.Length < Constants.TwoMegabytes)
             {
                 var file = new ProductFile()
                 {
@@ -27,15 +31,16 @@ public class FileUploadController(ICatalogDbContext context) : BaseApiController
         return Ok();
     }
 
-    [HttpGet("view/{Id:long}")]
-    public async Task<IActionResult> GetImageStream(long Id, CancellationToken cancellationToken)
+    [HttpGet("{id}/content")]
+    public async Task<IActionResult> GetImageStream(long id, CancellationToken cancellationToken)
     {
-        var file = await context.ProductFiles.FirstOrDefaultAsync(e => e.Id == Id, cancellationToken);
+        var file = await context.ProductFiles.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         if (file == null)
         {
             return NotFound();
         }
-        return File(file.Content, "image/jpeg");
+        string fileType = MimeMapping.MimeUtility.GetMimeMapping(file.FileName);
+        return File(file.Content, fileType);
     }
 }
 
