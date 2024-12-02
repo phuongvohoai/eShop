@@ -1,0 +1,16 @@
+﻿namespace Phuong.eShop.CatalogService.Application.Entities
+{
+    public class CatalogProduct : Auditable
+    {
+        public long Id { get; set; }
+        public required string Name { get; set; }
+        public required string PictureUri { get; set; }
+        public string? Description { get; set; }
+        public decimal Price { get; set; }
+        public long CatalogTypeId { get; set; }
+        public long CatalogBrandId { get; set; }
+        public CatalogType CatalogType { get; set; } = null!;
+        public CatalogBrand CatalogBrand { get; set; } = null!;
+        public int AvailableStock { get; set; }
+    }
+}
