@@ -1,24 +1,24 @@
 <MudDialog ContentStyle="width: 600px;" ContentClass="d-flex flex-column gap-2">
     <DialogContent>
-        <MudTextField @bind-Value="CatalogItem.Name" For="@(() => CatalogItem.Name)" Label="Name"
+        <MudTextField @bind-Value="CatalogProduct.Name" For="@(() => CatalogProduct.Name)" Label="Name"
                       Variant="Variant.Outlined" Margin="Margin.Dense" ShrinkLabel="true"/>
 
-        <MudTextField @bind-Value="CatalogItem.Description" For="@(() => CatalogItem.Description)" Label="Description"
+        <MudTextField @bind-Value="CatalogProduct.Description" For="@(() => CatalogProduct.Description)" Label="Description"
                       Variant="Variant.Outlined" Margin="Margin.Dense" ShrinkLabel="true"/>
 
-        <MudNumericField @bind-Value="CatalogItem.Price" For="@(() => CatalogItem.Price)" Label="Price"
+        <MudNumericField @bind-Value="CatalogProduct.Price" For="@(() => CatalogProduct.Price)" Label="Price"
                          Variant="Variant.Outlined" Margin="Margin.Dense" ShrinkLabel="true"/>
 
-        <MudNumericField @bind-Value="CatalogItem.AvailableStock" For="@(() => CatalogItem.AvailableStock)"
+        <MudNumericField @bind-Value="CatalogProduct.AvailableStock" For="@(() => CatalogProduct.AvailableStock)"
                          Label="Available Stock"
                          Variant="Variant.Outlined" Margin="Margin.Dense" ShrinkLabel="true"/>
 
-        <MudAutocomplete T="CatalogBrandDto" Label="Catalog Brand" @bind-Value="CatalogItem.CatalogBrandNavigation"
+        <MudAutocomplete T="CatalogBrandDto" Label="Catalog Brand" @bind-Value="CatalogProduct.CatalogBrandNavigation"
                          SearchFunc="@SearchBrand" ToStringFunc="s => s.Name" Variant="Variant.Outlined"
                          ResetValueOnEmptyText="true" Dense="true" ShrinkLabel="true" Margin="Margin.Dense"
                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"/>
 
-        <MudAutocomplete T="CatalogTypeDto" Label="Catalog Type" @bind-Value="CatalogItem.CatalogTypeNavigation"
+        <MudAutocomplete T="CatalogTypeDto" Label="Catalog Type" @bind-Value="CatalogProduct.CatalogTypeNavigation"
                          SearchFunc="@SearchType" ToStringFunc="s => s.Name" Variant="Variant.Outlined"
                          ResetValueOnEmptyText="true" Dense="true" ShrinkLabel="true" Margin="Margin.Dense"
                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"/>
@@ -35,7 +35,7 @@
     private MudDialogInstance MudDialog { get; set; } = null!;
 
     [Parameter]
-    public required CatalogItemDto CatalogItem { get; set; }
+    public required CatalogProductDto CatalogProduct { get; set; }
 
     [Parameter]
     public required List<CatalogBrandDto> CatalogBrands { get; set; }
@@ -44,21 +44,21 @@
     public required List<CatalogTypeDto> CatalogTypes { get; set; }
 
     [Inject]
-    private ICatalogService CatalogService { get; set; } = default!;
+    private ICatalogProductService CatalogProductService { get; set; } = default!;
 
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
 
     private async Task Submit()
     {
-        CatalogItemDto? result;
-        if (CatalogItem.Id == 0)
+        CatalogProductDto? result;
+        if (CatalogProduct.Id == 0)
         {
-            result = await CatalogService.CreateAsync(CatalogItem);
+            result = await CatalogProductService.CreateAsync(CatalogProduct);
         }
         else
         {
-            result = await CatalogService.UpdateAsync(CatalogItem);
+            result = await CatalogProductService.UpdateAsync(CatalogProduct);
         }
 
         if (result == null)
