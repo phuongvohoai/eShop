@@ -1,6 +1,6 @@
 ﻿using Phuong.eShop.CatalogService.Application.Carts.Commands;
+
 using Phuong.eShop.CatalogService.Application.Carts.Queries;
-using Phuong.eShop.CatalogService.Application.CatalogItems.Queries;
 
 namespace Phuong.eShop.CatalogService.Controllers
 {
@@ -28,7 +28,4 @@ namespace Phuong.eShop.CatalogService.Controllers
             return cartItem;
         }
     }
-
 }
-
-// api/cart/:id

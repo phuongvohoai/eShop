@@ -8,7 +8,7 @@ namespace Phuong.eShop.CatalogService.Application.CatalogProducts.Queries
     {
         public async Task<ApiResponse<List<CatalogProductDto>>> Handle(GetCatalogProductQuery request, CancellationToken cancellationToken)
         {
-            var catalogProduct = await context.CatalogItems.AsNoTracking().ToListAsync();
+            var catalogProduct = await context.CatalogItems.AsNoTracking().ToListAsync(cancellationToken: cancellationToken);
             return catalogProduct.Adapt<List<CatalogProductDto>>();
         }
     }

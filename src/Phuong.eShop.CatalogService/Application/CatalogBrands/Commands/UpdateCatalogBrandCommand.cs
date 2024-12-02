@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Phuong.eShop.CatalogService.Application.CatalogBrands.Models;
-using Phuong.eShop.CatalogService.Application.Common;
+﻿using Phuong.eShop.CatalogService.Application.CatalogBrands.Models;
+
 namespace Phuong.eShop.CatalogService.Application.CatalogBrands.Commands;
+
 public record UpdateCatalogBrandCommand(string Name) : IRequest<ApiResponse<CatalogBrandDto>>
 {
     public long Id { get; set; }
 }
+
 public class UpdateCatalogBrandCommandHandler(ICatalogDbContext context, IUserService userService) : IRequestHandler<UpdateCatalogBrandCommand, ApiResponse<CatalogBrandDto>>
 {
     public async Task<ApiResponse<CatalogBrandDto>> Handle(UpdateCatalogBrandCommand request, CancellationToken cancellationToken)

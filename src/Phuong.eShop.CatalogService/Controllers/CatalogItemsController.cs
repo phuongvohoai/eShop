@@ -1,6 +1,3 @@
-using System.Net;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Phuong.eShop.CatalogService.Application.CatalogItems.Commands;
 using Phuong.eShop.CatalogService.Application.CatalogItems.Queries;
 using Phuong.eShop.CatalogService.Application.Common;
@@ -55,6 +52,7 @@ public class CatalogItemsController(IWebHostEnvironment env) : BaseApiController
         await Mediator.Send(request);
         return Ok("Create Successfully!");
     }
+
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> DeleteById(long id)
     {
@@ -65,6 +63,7 @@ public class CatalogItemsController(IWebHostEnvironment env) : BaseApiController
         }
         return Ok("Delete Successfully!");
     }
+
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateById([FromBody] UpdateCatalogItemCommand request, int id)
     {
