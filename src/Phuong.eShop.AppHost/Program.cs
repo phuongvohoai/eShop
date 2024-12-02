@@ -14,6 +14,6 @@ var keycloak = builder.AddKeycloak("keycloak", 8080, username, password).WithDat
 
 builder.AddProject<Projects.Phuong_eShop_IdentityService>("IdentityService").WithReference(identityDb);
 builder.AddProject<Projects.Phuong_eShop_CatalogService>("CatalogService").WithReference(catalogDb);
-builder.AddProject<Projects.Phuong_eShop_BlazorApp>("BlazorApp").WithReference(keycloak);
+builder.AddProject<Projects.Phuong_eShop_BlazorApp>("BlazorWebAdmin").WithReference(keycloak);
 
 builder.Build().Run();

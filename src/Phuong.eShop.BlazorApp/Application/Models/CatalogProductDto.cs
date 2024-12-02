@@ -1,6 +1,6 @@
 namespace Phuong.eShop.BlazorApp.Application.Models;
 
-public class CatalogItemDto
+public class CatalogProductDto
 {
     public long Id { get; set; }
     public string? Name { get; set; }
