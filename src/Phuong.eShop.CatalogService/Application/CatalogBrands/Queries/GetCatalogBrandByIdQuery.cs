@@ -1,7 +1,9 @@
 ﻿using Phuong.eShop.CatalogService.Application.CatalogBrands.Models;
+
 namespace Phuong.eShop.CatalogService.Application.CatalogBrands.Queries
 {
     public record GetCatalogBrandByIdQuery(long Id) : IRequest<ApiResponse<CatalogBrandDto>>;
+
     public class GetCatalogBrandByIdHandlerQuery(ICatalogDbContext context) : IRequestHandler<GetCatalogBrandByIdQuery, ApiResponse<CatalogBrandDto>>
     {
         public async Task<ApiResponse<CatalogBrandDto>> Handle(GetCatalogBrandByIdQuery request, CancellationToken cancellationToken)

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Phuong.eShop.CatalogService.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Phuong.eShop.CatalogService.Infrastructure.Persistence;
 namespace Phuong.eShop.CatalogService.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    partial class CatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241127161303_AuditableEntity")]
+    partial class AuditableEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,26 +149,6 @@ namespace Phuong.eShop.CatalogService.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CatalogTypes");
-                });
-
-            modelBuilder.Entity("Phuong.eShop.CatalogService.Application.Entities.ProductFile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<byte[]>("Content")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<string>("FileName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProductFiles");
                 });
 
             modelBuilder.Entity("Phuong.eShop.CatalogService.Application.Entities.CatalogItem", b =>

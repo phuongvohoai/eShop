@@ -1,10 +1,13 @@
 ﻿using Phuong.eShop.CatalogService.Application.CatalogBrands.Models;
+
 namespace Phuong.eShop.CatalogService.Application.CatalogBrands.Commands;
+
 public record UpdateCatalogBrandCommand(string Name) : IRequest<ApiResponse<CatalogBrandDto>>
 {
     public long Id { get; set; }
 }
-public class UpdateCatalogBrandCommandHandler(ICatalogDbContext context) : IRequestHandler<UpdateCatalogBrandCommand, ApiResponse<CatalogBrandDto>>
+
+public class UpdateCatalogBrandCommandHandler(ICatalogDbContext context, IUserService userService) : IRequestHandler<UpdateCatalogBrandCommand, ApiResponse<CatalogBrandDto>>
 {
     public async Task<ApiResponse<CatalogBrandDto>> Handle(UpdateCatalogBrandCommand request, CancellationToken cancellationToken)
     {
@@ -14,6 +17,8 @@ public class UpdateCatalogBrandCommandHandler(ICatalogDbContext context) : IRequ
             return CatalogBrandErrors.NotFound(request.Id);
         }
         catalogBrand.Name = request.Name;
+        catalogBrand.ModifiedBy = userService.Name;
+        catalogBrand.ModifiedAt = DateTime.UtcNow;
         await context.SaveChangesAsync(cancellationToken);
         return catalogBrand.Adapt<CatalogBrandDto>();
     }

@@ -46,6 +46,8 @@ public class CatalogSeed(IWebHostEnvironment env, ILogger<CatalogSeed> logger) :
             CatalogTypeId = typeIdsByName[source.Type],
             AvailableStock = 100,
             PictureUri = $"{source.Id}.webp",
+            CreatedAt = DateTime.UtcNow,
+            CreatedBy = "System",
         }).ToArray();
         context.CatalogItems.AddRange(catalogItems);
         logger.LogInformation("Seeded catalog with {NumItems} items", context.CatalogItems.Count());
@@ -55,7 +57,12 @@ public class CatalogSeed(IWebHostEnvironment env, ILogger<CatalogSeed> logger) :
     {
         context.CatalogTypes.RemoveRange(context.CatalogTypes);
         context.CatalogTypes.AddRange(
-            sourceItems.Select(x => x.Type).Distinct().Select(typeName => new CatalogType { Name = typeName })
+            sourceItems.Select(x => x.Type).Distinct().Select(typeName => new CatalogType
+            {
+                Name = typeName,
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = "System"
+            })
         );
         logger.LogInformation("Seeded catalog with {NumTypes} types", context.CatalogTypes.Count());
     }
@@ -64,7 +71,13 @@ public class CatalogSeed(IWebHostEnvironment env, ILogger<CatalogSeed> logger) :
     {
         context.CatalogBrands.RemoveRange(context.CatalogBrands);
         context.CatalogBrands.AddRange(
-            sourceItems.Select(x => x.Brand).Distinct().Select(brandName => new CatalogBrand { Name = brandName })
+            sourceItems.Select(x => x.Brand).Distinct().Select(brandName => new CatalogBrand
+            {
+                Name = brandName,
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = "System"
+            })
+
         );
         logger.LogInformation("Seeded catalog with {NumBrands} brands", context.CatalogBrands.Count());
     }
