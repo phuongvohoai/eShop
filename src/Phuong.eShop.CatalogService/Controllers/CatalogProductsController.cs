@@ -1,6 +1,7 @@
 ﻿using Phuong.eShop.CatalogService.Application.CatalogProducts.Commands;
 using Phuong.eShop.CatalogService.Application.CatalogProducts.Models;
 using Phuong.eShop.CatalogService.Application.CatalogProducts.Queries;
+using Phuong.eShop.CatalogService.Application.Common;
 
 namespace Phuong.eShop.CatalogService.Controllers
 {
@@ -8,9 +9,21 @@ namespace Phuong.eShop.CatalogService.Controllers
     public class CatalogProductsController : BaseApiController
     {
         [HttpGet]
-        public Task<ApiResponse<List<CatalogProductDto>>> Get()
+        public Task<ApiResponse<PaginatedList<CatalogProductDto>>> GetWithPagination(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] int type = 0,
+            [FromQuery] int brand = 0,
+            [FromQuery] string searchString = "")
         {
-            return Mediator.Send(new GetCatalogProductQuery());
+            return Mediator.Send(new GetCatalogProductWithPaginationQuery
+            {
+                PageNumber = pageNumber,
+                Brand = brand,
+                Type = type,
+                PageSize = pageSize,
+                SearchString = searchString
+            });
         }
 
         [HttpGet("{id:long}")]
