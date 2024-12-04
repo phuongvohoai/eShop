@@ -11,7 +11,7 @@ public partial class Catalog : ComponentBase
     private ICatalogTypeService CatalogTypeService { get; set; } = default!;
 
     [Inject]
-    private ICatalogService CatalogService { get; set; } = default!;
+    private ICatalogProductService CatalogProductService { get; set; } = default!;
 
     [Inject]
     private ICatalogBrandService CatalogBrandService { get; set; } = default!;
@@ -25,8 +25,8 @@ public partial class Catalog : ComponentBase
     private string _searchString = string.Empty;
     private List<CatalogTypeDto> _catalogTypes = [];
     private List<CatalogBrandDto> _catalogBrands = [];
-    private List<CatalogItemDto> _catalogItems = [];
-    private HashSet<CatalogItemDto> _selectedCatalogItems = [];
+    private List<CatalogProductDto> _catalogItems = [];
+    private HashSet<CatalogProductDto> _selectedCatalogItems = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -34,15 +34,26 @@ public partial class Catalog : ComponentBase
 
         var catalogTypesTask = CatalogTypeService.GetAllAsync();
         var catalogBrandsTask = CatalogBrandService.GetAllAsync();
-        var catalogItemsTask = CatalogService.GetAllAsync();
+        var catalogItemsTask = CatalogProductService.GetAllAsync();
         await Task.WhenAll(catalogTypesTask, catalogBrandsTask, catalogItemsTask);
 
         _catalogTypes = catalogTypesTask.Result;
         _catalogBrands = catalogBrandsTask.Result;
-        _catalogItems = catalogItemsTask.Result;
+        _catalogItems = catalogItemsTask.Result.OrderBy(x => x.Name).ToList();
+
+        foreach (var productDto in _catalogItems)
+        {
+            PopulateBrandAndType(productDto);
+        }
     }
 
-    private Func<CatalogItemDto, bool> QuickFilter =>
+    private void PopulateBrandAndType(CatalogProductDto catalogProduct)
+    {
+        catalogProduct.CatalogTypeNavigation = _catalogTypes.FirstOrDefault(x => x.Id == catalogProduct.CatalogTypeId);
+        catalogProduct.CatalogBrandNavigation = _catalogBrands.FirstOrDefault(x => x.Id == catalogProduct.CatalogBrandId);
+    }
+
+    private Func<CatalogProductDto, bool> QuickFilter =>
         x => string.IsNullOrWhiteSpace(_searchString) || string.IsNullOrWhiteSpace(x.Name) || x.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase);
 
     private async Task OnAdd()
@@ -50,7 +61,7 @@ public partial class Catalog : ComponentBase
         var parameters = new DialogParameters<CreateOrUpdateCatalogDialog>
         {
             {
-                x => x.CatalogItem, new CatalogItemDto() 
+                x => x.CatalogProduct, new CatalogProductDto()
             },
             {
                 x => x.CatalogTypes, _catalogTypes
@@ -59,21 +70,22 @@ public partial class Catalog : ComponentBase
                 x => x.CatalogBrands, _catalogBrands
             }
         };
-        var dialogReference = await DialogService.ShowAsync<CreateOrUpdateCatalogDialog>("Create Catalog", parameters);
-        var addedCatalogItem = await dialogReference.GetReturnValueAsync<CatalogItemDto>();
+        var dialogReference = await DialogService.ShowAsync<CreateOrUpdateCatalogDialog>("Create Product", parameters);
+        var addedCatalogItem = await dialogReference.GetReturnValueAsync<CatalogProductDto>();
         if (addedCatalogItem != null)
         {
+            PopulateBrandAndType(addedCatalogItem);
             _catalogItems.Add(addedCatalogItem);
-            Snackbar.Add($"Catalog '{addedCatalogItem.Name}' created", Severity.Success);
+            Snackbar.Add($"Product '{addedCatalogItem.Name}' created", Severity.Success);
         }
     }
 
-    private async Task OnEdit(CatalogItemDto catalogItem)
+    private async Task OnEdit(CatalogProductDto catalogProduct)
     {
         var parameters = new DialogParameters<CreateOrUpdateCatalogDialog>
         {
             {
-                x => x.CatalogItem, catalogItem
+                x => x.CatalogProduct, catalogProduct
             },
             {
                 x => x.CatalogTypes, _catalogTypes
@@ -82,24 +94,25 @@ public partial class Catalog : ComponentBase
                 x => x.CatalogBrands, _catalogBrands
             }
         };
-        var dialogReference = await DialogService.ShowAsync<CreateOrUpdateCatalogDialog>($"Update Catalog #{catalogItem.Id}", parameters);
-        var updatedCatalogItem = await dialogReference.GetReturnValueAsync<CatalogItemDto>();
+        var dialogReference = await DialogService.ShowAsync<CreateOrUpdateCatalogDialog>($"Update Product #{catalogProduct.Id}", parameters);
+        var updatedCatalogItem = await dialogReference.GetReturnValueAsync<CatalogProductDto>();
         if (updatedCatalogItem != null)
         {
-            var index = _catalogTypes.FindIndex(x => x.Id == updatedCatalogItem.Id);
+            PopulateBrandAndType(updatedCatalogItem);
+            var index = _catalogItems.FindIndex(x => x.Id == updatedCatalogItem.Id);
             _catalogItems[index] = updatedCatalogItem;
-            Snackbar.Add($"Catalog '{updatedCatalogItem.Name}' updated", Severity.Success);
+            Snackbar.Add($"Product '{updatedCatalogItem.Name}' updated", Severity.Success);
         }
     }
 
-    private async Task OnDelete(CatalogItemDto catalog)
+    private async Task OnDelete(CatalogProductDto catalog)
     {
-        var dialogResult = await DialogService.ShowMessageBox("Delete Catalog", $"Are you sure you want to delete the catalog '{catalog.Name}'?");
+        var dialogResult = await DialogService.ShowMessageBox("Delete Product", $"Are you sure you want to delete the product '{catalog.Name}'?");
         if (dialogResult == true)
         {
             await CatalogTypeService.DeleteAsync(catalog.Id);
             _catalogItems.Remove(catalog);
-            Snackbar.Add($"Catalog '{catalog.Name}' deleted", Severity.Success);
+            Snackbar.Add($"Product '{catalog.Name}' deleted", Severity.Success);
         }
     }
 }
