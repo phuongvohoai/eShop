@@ -40,4 +40,16 @@ public class CatalogBrandsController : BaseApiController
     {
         return Mediator.Send(new DeleteCatalogBrandCommand(id));
     }
+
+    [HttpDelete("bulk")]
+    public Task<ApiResponse<bool>> BulkDeletes([FromBody] List<long> ids)
+    {
+        return Mediator.Send(new BulkDeleteCatalogBrandCommand(ids));
+    }
+
+    [HttpPut("bulk")]
+    public Task<ApiResponse<List<CatalogBrandDto>>> BulkUpdates([FromBody] List<CatalogBrandDto> command)
+    {
+        return Mediator.Send(new BulkUpdateCatalogBrandCommand(command));
+    }
 }

@@ -19,31 +19,39 @@ const CatalogApi = {
     const response = await fetch(
       `${catalogApiUrl}/api/catalog/items?pageNumber=${pageNumber}&pageSize=${pageSize}&brand=${brandId}&type=${typeId}&searchString=${search}`
     );
-    console.log(response.url);
+    console.log(catalogApiUrl);
     const paginatedList: PaginatedList<CatalogItemCartDetailModel> =
       await response.json();
+      console.log('paginatedList', paginatedList)
     return {
       ...paginatedList,
       items: paginatedList.items.map((item: CatalogItemCartDetailModel) => ({
         ...item,
-        pictureUri: `${catalogApiUrl}/api/catalog/items/${item.id}/pic`,
+        pictureUri: `${catalogApiUrl}/${item.pictureUri}`,
       })),
     };
   },
   async getCatalogBrands(): Promise<Array<CatalogBrandModel>> {
     const response = await fetch(`${catalogApiUrl}/api/catalog/brands`);
-    return await response.json();
+    const jsonData = await response.json();
+    console.log('getCatalogBrands', jsonData)
+    return jsonData.value;
   },
   async getCatalogTypes(): Promise<Array<CatalogTypeModel>> {
     const response = await fetch(`${catalogApiUrl}/api/catalog/types`);
-    return await response.json();
+    const jsonData = await response.json();
+    return jsonData.value;
   },
   async getCatalogItem(id: number): Promise<CatalogItemDetailModel> {
     const response = await fetch(`${catalogApiUrl}/api/catalog/items/${id}`);
-    const catalogItem: CatalogItemDetailModel = await response.json();
+    const catalogItem: CatalogItemDetailModel = await response.json(); 
+ 
+    // pics folder
+    // api/catalog/items/1/pic
+    // if picture in db /api/files/2/content
     return {
       ...catalogItem,
-      pictureUri: `${catalogApiUrl}/api/catalog/items/${id}/pic`,
+      pictureUri: `${catalogApiUrl}/${catalogItem.pictureUri}`,
     };
   }
 };

@@ -8,6 +8,8 @@ import UserProvider from "./context/user-context-provider";
 import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "Northern Mountains"
 };

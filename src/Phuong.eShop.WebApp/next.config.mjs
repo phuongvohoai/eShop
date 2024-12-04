@@ -5,8 +5,8 @@ const nextConfig = {
       {
         protocol: 'http',
         hostname: 'localhost',
-        port: '50211',
-        pathname: '/api/**',
+        port: '12270',
+        pathname: '/api/files/**',
       },
     ],
   },

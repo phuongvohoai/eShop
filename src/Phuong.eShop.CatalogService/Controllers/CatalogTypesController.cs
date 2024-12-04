@@ -1,3 +1,4 @@
+using Phuong.eShop.CatalogService.Application.CatalogBrands.Commands;
 using Phuong.eShop.CatalogService.Application.CatalogTypes.Commands;
 using Phuong.eShop.CatalogService.Application.CatalogTypes.Models;
 using Phuong.eShop.CatalogService.Application.CatalogTypes.Queries;
@@ -38,5 +39,17 @@ public class CatalogTypesController : BaseApiController
     public Task<ApiResponse<bool>> DeleteById(long id)
     {
         return Mediator.Send(new DeleteCatalogTypeCommand(id));
+    }
+
+    [HttpDelete("bulk")]
+    public Task<ApiResponse<bool>> BulkDeletes([FromBody] List<long> ids)
+    {
+        return Mediator.Send(new BulkDeleteCatalogTypeCommand(ids));
+    }
+
+    [HttpPut("bulk")]
+    public Task<ApiResponse<List<CatalogTypeDto>>> BulkUpdates([FromBody] List<CatalogTypeDto> command)
+    {
+        return Mediator.Send(new BulkUpdateCatalogTypeCommand(command));
     }
 }

@@ -22,6 +22,11 @@ namespace Phuong.eShop.CatalogService.Application.CatalogProducts.Commands
             };
             context.CatalogItems.Add(catalogProduct);
             await context.SaveChangesAsync(cancellationToken);
+
+            //update url picture
+            catalogProduct.PictureUri = $"api/files/{catalogProduct.Id}/content";
+            await context.SaveChangesAsync(cancellationToken);
+
             return catalogProduct.Adapt<CatalogProductDto>();
         }
     }
