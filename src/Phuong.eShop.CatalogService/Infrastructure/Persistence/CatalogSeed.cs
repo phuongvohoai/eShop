@@ -45,7 +45,7 @@ public class CatalogSeed(IWebHostEnvironment env, ILogger<CatalogSeed> logger) :
             CatalogBrandId = brandIdsByName[source.Brand],
             CatalogTypeId = typeIdsByName[source.Type],
             AvailableStock = 100,
-            PictureUri = $"{source.Id}.webp",
+            PictureUri = $"api/files/{source.Id}/pic",
             CreatedAt = DateTime.UtcNow,
             CreatedBy = "System",
         }).ToArray();

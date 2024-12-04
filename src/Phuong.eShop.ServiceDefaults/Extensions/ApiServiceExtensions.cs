@@ -35,6 +35,6 @@ public static class ApiServiceExtensions
         app.UseSwagger();
         app.UseSwaggerUI();
         app.MapDefaultEndpoints();
-        app.MapControllers();
+        app.MapControllers().AllowAnonymous();
     }
 }

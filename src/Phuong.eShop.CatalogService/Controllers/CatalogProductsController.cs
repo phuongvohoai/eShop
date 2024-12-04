@@ -39,6 +39,18 @@ namespace Phuong.eShop.CatalogService.Controllers
         {
             return Mediator.Send(new DeleteCatalogProductCommand(id));
         }
+
+        [HttpDelete("bulk")]
+        public Task<ApiResponse<bool>> BulkDelete([FromBody] List<long> ids)
+        {
+            return Mediator.Send(new BulkDeleteCatalogProductCommand(ids));
+        }
+
+        [HttpPut("bulk")]
+        public Task<ApiResponse<List<CatalogProductDto>>> BulkUpdate([FromBody] List<CatalogProductDto> command)
+        {
+            return Mediator.Send(new BulkUpdateCatalogProductCommand(command));
+        }
     }
 }
 
