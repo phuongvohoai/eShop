@@ -1,8 +1,4 @@
-﻿using System.Formats.Asn1;
-using System.Globalization;
-using CsvHelper;
-using CsvHelper.Configuration;
-using Phuong.eShop.CatalogService.Application.CatalogItems.Queries;
+﻿using Phuong.eShop.CatalogService.Application.CatalogItems.Queries;
 
 namespace Phuong.eShop.CatalogService.Controllers;
 static class Constants
@@ -11,7 +7,7 @@ static class Constants
 }
 
 [Route("api/files")]
-public class FileUploadController(ICatalogDbContext context, IWebHostEnvironment env, IUserService userService) : BaseApiController
+public class FileUploadController(ICatalogDbContext context, IWebHostEnvironment env) : BaseApiController
 {
     [HttpPost("upload")]
     public async Task<IActionResult> OnPostUploadAsync(IFormFile formFile, CancellationToken cancellationToken)
@@ -59,47 +55,5 @@ public class FileUploadController(ICatalogDbContext context, IWebHostEnvironment
         var path = Path.Combine(env.ContentRootPath, "Pics", $"{id}.webp");
         return PhysicalFile(path, "image/webp");
     }
-
-    [HttpPost("uploadCsvFile")]
-    public async Task<IActionResult> UploadCsvFile(IFormFile formFile, CancellationToken cancellationToken)
-    {
-        var catalogItemList = new List<CatalogCsvItem>();
-        using (var memoryStream = new MemoryStream())
-        {
-            await formFile.CopyToAsync(memoryStream, cancellationToken);
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-            {
-                HasHeaderRecord = true,
-                MissingFieldFound = null,
-            };
-            memoryStream.Position = 0;
-            using (var reader = new StreamReader(memoryStream))
-            using (var csv = new CsvReader(reader, config))
-            {
-                while (csv.Read())
-                {
-                    var record = csv.GetRecord<CatalogCsvItem>();
-                    catalogItemList.Add(record);
-                }
-            }
-        }
-        foreach (var catalogItem in catalogItemList)
-        {
-            var catalogItemEntity = new CatalogItem
-            {
-                Name = catalogItem.Name,
-                Price = catalogItem.Price,
-                Description = catalogItem.Description,
-                CatalogBrandId = catalogItem.CatalogBrandId,
-                CatalogTypeId = catalogItem.CatalogTypeId,
-                AvailableStock = catalogItem.AvailableStock,
-                PictureUri = catalogItem.PictureUri ?? string.Empty,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = userService.Name,
-            };
-            context.CatalogItems.Add(catalogItemEntity);
-        }
-        await context.SaveChangesAsync(cancellationToken);
-        return Ok("Upload Successfully");
-    }
 }
+
