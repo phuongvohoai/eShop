@@ -14,4 +14,9 @@ public class CatalogDbContext(DbContextOptions<CatalogDbContext> options) : DbCo
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return base.SaveChangesAsync(cancellationToken);
+    }
 }
